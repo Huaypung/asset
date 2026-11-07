@@ -1,0 +1,220 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light"><meta name="robots" content="noindex"><title>ทะเบียนครุภัณฑ์ บ้านห้วยผึ้ง</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600&family=Prompt:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+:root{--bg:#fff;--card:#fff;--fg:#0f172a;--mut:#64748b;--line:#e9ecf4;--fill:#eef0f7;--acc:#4f46e5;--on:#fff;--t2:#e0e7ff;--t2f:#3730a3;--t3:#fef3c7;--t3f:#92400e;--bad:#dc2626;--hov:#f7f8fd;--sh:0 1px 2px rgba(15,23,42,.04),0 12px 32px rgba(79,70,229,.1);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 "Noto Sans Thai",system-ui,sans-serif}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.w,main{max-width:1100px;margin:0 auto;padding-left:16px;padding-right:16px}
+.hd .w{display:flex;gap:12px;align-items:center;padding-top:22px;padding-bottom:4px}
+.logo{width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,#4f46e5,#2563eb);color:#fff;display:grid;place-items:center;font:600 21px Prompt,sans-serif;flex:none}
+h1{font:600 22px/1.25 Prompt,"Noto Sans Thai",sans-serif;margin:0}
+.hd p{margin:0;color:var(--mut);font-size:14px}
+main{padding-top:16px;padding-bottom:56px}.mut,small{color:var(--mut)}
+.bn{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:12px}
+.hero{grid-row:span 2;background:linear-gradient(135deg,#4338ca,#6d28d9 55%,#2563eb);color:#fff;border-radius:22px;padding:22px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:10px;justify-content:space-between}
+.hero small{color:#dcd9ff}.hero b{font:600 38px/1.15 Prompt,sans-serif;font-variant-numeric:tabular-nums}.hero u{text-decoration:none;font:500 15px "Noto Sans Thai",sans-serif;margin-left:8px;color:#dcd9ff}
+.sb{display:flex;gap:3px;height:12px}.sb i{border-radius:6px}.s2{background:#fff}.s3{background:#fcd34d}
+.lg{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px}.lg s{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.tl{background:var(--fill);border-radius:20px;padding:16px 18px;display:flex;flex-direction:column;gap:2px}
+.tl b{font:600 28px/1.2 Prompt,sans-serif;font-variant-numeric:tabular-nums}
+.tabs{display:flex;gap:4px;overflow-x:auto;background:var(--fill);border-radius:14px;padding:4px;margin:20px 0 16px;width:fit-content;max-width:100%}
+.tabs button{border:0;background:none;color:var(--mut);padding:8px 16px;border-radius:11px;white-space:nowrap;font-weight:500}
+.tabs button.on{background:var(--card);color:var(--fg);box-shadow:0 1px 3px rgba(15,23,42,.12)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+input,select,button{font:inherit;color:var(--fg);background:var(--fill);border:1px solid transparent;border-radius:12px;padding:9px 13px;min-height:42px;max-width:100%;box-sizing:border-box}
+input:focus,select:focus{border-color:var(--acc);outline:0}
+button{cursor:pointer;font-weight:500}button.pri{background:var(--acc);color:var(--on);font-weight:600}
+.bar input{flex:1 1 220px}
+.sc{overflow-x:auto;border-radius:20px;background:var(--card);border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;min-width:760px}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:500;color:var(--mut);font-size:13px;white-space:nowrap}
+tbody tr:hover td{background:var(--hov)}tr:last-child td{border-bottom:0}
+td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.g td{background:var(--fill);font-weight:600}tr.g td small{margin-left:12px;font-weight:400}
+.t{display:inline-flex;align-items:center;gap:6px;padding:2px 11px;border-radius:99px;font-size:13px;font-weight:500;white-space:nowrap}
+.t::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.r2{background:var(--t2);color:var(--t2f)}.r3{background:var(--t3);color:var(--t3f)}.bd{color:var(--bad)}
+.prog{height:10px;background:var(--fill);border-radius:5px;overflow:hidden;margin:6px 0 16px}.prog i{display:block;height:100%;background:var(--acc);border-radius:5px}
+.f{border:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:780px;background:var(--card);border-radius:20px;padding:22px}
+.f label,dialog label{display:flex;flex-direction:column;gap:5px;font-size:14px;color:var(--mut)}
+dialog{border:1px solid var(--line);border-radius:22px;background:var(--card);color:var(--fg);max-width:400px;width:90%;box-shadow:var(--sh);padding:22px}
+dialog::backdrop{background:rgba(10,14,28,.55)}dialog label{margin:12px 0}
+footer{margin-top:28px;font-size:13px;line-height:1.8}footer a{color:var(--acc)}
+@media(max-width:860px){.two{grid-template-columns:1fr}.bn{grid-template-columns:1fr 1fr}.hero{grid-column:span 2;grid-row:auto}}
+@media(max-width:640px){
+.hero b{font-size:30px}.tl b{font-size:24px}
+.tabs{width:auto}.sc{overflow:visible;background:none;border:0}
+table{min-width:0;display:block}thead{display:none}tbody{display:block}
+tr{display:block;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:10px 16px;margin-bottom:10px}
+tr.g{background:none;border:0;padding:6px 2px;margin:16px 0 6px}tr.g td{background:none;padding:0}
+td{display:flex;justify-content:space-between;gap:14px;border:0;padding:5px 0;text-align:right}
+tbody tr:hover td{background:none}
+td::before{content:attr(data-l);color:var(--mut);font-size:13px;text-align:left;flex:none}
+td[data-l=""]{justify-content:flex-end;padding-top:8px}td[data-l=""]::before{display:none}
+tr.g td{justify-content:flex-start;flex-wrap:wrap}
+}
+.qa{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0}
+.qb{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px}
+.qb b{font:600 16px Prompt,sans-serif}.qb:hover{border-color:var(--acc)}
+.two{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;align-items:start}
+.pn{border:1px solid var(--line);border-radius:20px;padding:6px 18px 12px}
+.pn h3{font:600 16px Prompt,sans-serif;margin:12px 0 4px}
+.ct{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.ct:last-child{border-bottom:0}.ct .n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.bt{grid-column:1/-1;height:6px;background:var(--fill);border-radius:3px}.bt i{display:block;height:100%;background:var(--acc);border-radius:3px}
+.li{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}.li:last-child{border-bottom:0}
+.app{display:none;min-height:100vh}.in .app{display:flex}#lg{min-height:100vh;display:grid;place-items:center;padding:24px}.in #lg{display:none}
+.sd{width:250px;flex:none;box-sizing:border-box;position:sticky;top:0;height:100vh;height:100dvh;overflow-y:auto;background:var(--card);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;z-index:30}
+.br{display:flex;gap:10px;align-items:center;padding:0 8px 20px}.br b{display:block;font:600 16px/1.3 Prompt,sans-serif}
+#tabs{display:flex;flex-direction:column;gap:4px}
+#tabs button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:0;color:var(--mut);padding:10px 12px;border-radius:12px;font-weight:500}
+#tabs button:hover{background:var(--fill);color:var(--fg)}#tabs button.on{background:var(--t2);color:var(--t2f);font-weight:600}
+svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.sf{margin-top:auto;padding:16px 8px 0;font-size:12px;line-height:1.6;color:var(--mut)}
+.ct2{flex:1;min-width:0}
+.tb{display:flex;align-items:center;gap:10px;max-width:1100px;margin:0 auto;padding:22px 16px 0}.tb b{font:600 24px/1.3 Prompt,sans-serif}
+.mb{display:none;place-items:center;width:42px;padding:0;flex:none}
+.sh{display:none}
+@media(max-width:860px){
+.sd{position:fixed;left:0;top:0;bottom:0;height:auto;padding-top:calc(20px + env(safe-area-inset-top,0px));transform:translateX(-105%);transition:transform .2s}
+.sd.open{transform:none;box-shadow:var(--sh)}
+.sh.open{display:block;position:fixed;inset:0;background:rgba(10,14,28,.45);z-index:20}
+.mb{display:grid}.tb{padding-top:14px}.tb b{font-size:20px}
+}
+.wl{text-align:center;padding:36px 0 30px}.logo.big{width:72px;height:72px;border-radius:22px;font-size:32px;margin:0 auto 16px}
+.wl h2{font:600 28px/1.3 Prompt,sans-serif;margin:0 0 8px}.wl p{margin:0;color:var(--mut)}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:900px;margin:0 auto}
+.mc{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px}
+.mc svg{width:28px;height:28px;color:var(--acc);margin-bottom:6px}.mc b{font:600 17px Prompt,sans-serif}.mc small{font-weight:400;line-height:1.5}
+.mc:hover{border-color:var(--acc);box-shadow:var(--sh)}
+</style></head><body><div id="lg"><div class="wl"><div class="logo big">ค</div><h2>ระบบทะเบียนครุภัณฑ์</h2><p>โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านห้วยผึ้ง</p><p style="margin:22px 0 12px"><button class="pri" onclick="login()">เข้าสู่ระบบด้วย Google</button></p><p id="lm" class="bd"></p></div></div><div class="app"><aside class="sd" id="sd"><div class="br"><div class="logo">ค</div><div><b>ทะเบียนครุภัณฑ์</b><small>บ้านห้วยผึ้ง</small></div></div><nav id="tabs"></nav><div class="sf"><div id="me"></div><br>โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านห้วยผึ้ง<br>อำเภอน้ำปาด จังหวัดอุตรดิตถ์</div></aside><div class="sh" id="sh" onclick="menu(false)"></div>
+<div class="ct2"><div class="tb"><button class="mb" onclick="menu(true)" aria-label="เปิดเมนู"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><b id="pt"></b></div><main><div id="sum"></div><div id="pg"></div>
+<footer class="mut" id="ft"></footer>
+<dialog id="dlg"><h3 style="margin:0">จำหน่ายครุภัณฑ์</h3><div id="dn" class="mut"></div>
+<label>วันที่จำหน่าย<input type="date" id="dd"></label>
+<label>เหตุผล<select id="dr"><option>ชำรุดเกินซ่อม<option>เสื่อมสภาพ<option>สูญหาย<option>โอนหรือบริจาค<option>อื่น ๆ</select></label>
+<label>เลขที่เอกสาร<input id="dc"></label>
+<div class="bar"><button onclick="dlg.close()">ยกเลิก</button><button class="pri" onclick="doDisp()">ยืนยันจำหน่าย</button></div></dialog>
+<script>
+// ===== ใส่ค่า Firebase 4 ค่าตรงนี้ (ดูคู่มือ) =====
+const CFG={apiKey:"AIzaSyAR_STG1zagOTItShiue2YzngVjUZQXUyM",authDomain:"huaypung-asset.firebaseapp.com",projectId:"huaypung-asset",appId:"1:358884780995:web:374861399bd55bb4a92b76"};
+let S=[],ME='',CAN=false,auth=null,db=null,unsub=null;
+const TS=()=>firebase.firestore.FieldValue.serverTimestamp();
+function put(x,act){if(!CAN)return;return db.collection('assets').doc(String(x.i)).set(x).then(()=>db.collection('history').add({t:TS(),by:ME,act:act,code:x.code||'',name:x.name||''})).catch(e=>alert('บันทึกไม่สำเร็จ: '+e.message))}
+function setNote(i,v){const x=get(i);x.note=v;put(x,'แก้หมายเหตุ')}
+async function loadLog(){const el=()=>document.getElementById('hl');
+ try{const s=await db.collection('history').orderBy('t','desc').limit(100).get(),L=s.docs.map(d=>d.data());if(!el())return;el().className='';
+ el().innerHTML=L.length?`<div class="sc"><table><thead><tr><th>เวลา</th><th>ผู้ทำรายการ</th><th>สิ่งที่ทำ</th><th>ครุภัณฑ์</th></tr></thead><tbody>${L.map(x=>`<tr><td data-l="เวลา">${x.t?x.t.toDate().toLocaleString('th-TH'):'-'}</td><td data-l="ผู้ทำรายการ">${esc(x.by)}</td><td data-l="สิ่งที่ทำ">${esc(x.act)}</td><td data-l="ครุภัณฑ์">${esc(x.code)} ${esc(x.name)}</td></tr>`).join('')}</tbody></table></div>`:'<p class="mut">ยังไม่มีประวัติ</p>'}
+ catch(e){if(el())el().textContent='โหลดประวัติไม่สำเร็จ: '+e.message}}
+const $=s=>document.querySelector(s),p2=n=>String(n).padStart(2,'0');
+const fmt=n=>n==null?'-':Number(n).toLocaleString('en-US',{maximumFractionDigits:2});
+const fd=d=>{if(!d)return'-';const[y,m,x]=d.split('-');return +x+'/'+ +m+'/'+y};
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const today=()=>{const t=new Date();return`${t.getFullYear()+543}-${p2(t.getMonth()+1)}-${p2(t.getDate())}`};
+const nid=()=>Date.now()*1000+Math.floor(Math.random()*1000),get=i=>S.find(x=>x.i===i);
+let tab='home',F={q:'',reg:'',cat:'',st:'',g:''},P=[],cur=0,rst=false;
+const TABS=[['home','หน้าหลัก'],['reg','ทะเบียน'],['chk','ตรวจสอบ'],['add','รับเข้าใหม่'],['out','จำหน่ายแล้ว'],['imp','นำเข้า Excel'],['log','ประวัติ']];
+const TT=()=>TABS.filter(t=>CAN||['home','reg','out','log'].includes(t[0]));
+const badge=r=>`<span class="t ${r==='สท.2'?'r2':'r3'}">${r}</span>`;
+const IC={log:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',home:'<path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',reg:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',chk:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',add:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',out:'<path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/>',imp:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>'};
+function menu(o){$('#sd').classList.toggle('open',o);$('#sh').classList.toggle('open',o)}
+function go(t){tab=t;menu(false);render();scrollTo(0,0)}
+function render(){
+ const A=S.filter(x=>x.st!=='จำหน่ายแล้ว'),c2=A.filter(x=>x.reg==='สท.2').length;
+ const a2=A.filter(x=>x.reg==='สท.2'),a3=A.filter(x=>x.reg==='สท.3'),sm=l=>l.reduce((s,x)=>s+x.cost,0),v2=sm(a2),v3=sm(a3),bad=A.filter(x=>x.st==='ชำรุด').length,ck=A.filter(x=>x.chk).length;
+ const SUM=`<section class="bn"><div class="hero"><small>ราคาทุนรวมของครุภัณฑ์ที่ใช้อยู่ ${A.length} รายการ</small><b>${fmt(v2+v3)}<u>บาท</u></b><div><div class="sb"><i class="s2" style="flex:${v2||1}"></i><i class="s3" style="flex:${v3||1}"></i></div><div class="lg" style="margin-top:10px"><span><s class="s2"></s>สท.2 ${fmt(v2)} บาท</span><span><s class="s3"></s>สท.3 ${fmt(v3)} บาท</span></div></div></div>
+ <div class="tl"><small>ทะเบียน สท.2</small><b>${a2.length}</b><small>มีค่าเสื่อมราคา</small></div><div class="tl"><small>ทะเบียน สท.3</small><b>${a3.length}</b><small>ไม่คิดค่าเสื่อม</small></div>
+ <div class="tl"><small>ตรวจแล้ว</small><b>${ck}<small> / ${A.length}</small></b><small>รายการ</small></div><div class="tl"><small>ชำรุด</small><b class="${bad?'bd':''}">${bad}</b><small>จำหน่ายแล้ว ${S.length-A.length} รายการ</small></div></section>`;
+ $('#tabs').innerHTML=TT().map(t=>`<button class="${t[0]===tab?'on':''}" onclick="go('${t[0]}')"><svg viewBox="0 0 24 24">${IC[t[0]]}</svg>${t[1]}</button>`).join('');
+ $('#pt').textContent=TABS.find(t=>t[0]===tab)[1];
+ const cats=[...new Set(S.map(x=>x.cat))];
+ const opt=(a,v,all)=>`<option value="">${all}</option>`+a.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('');
+ let h='';
+ if(tab==='reg'||tab==='chk'||tab==='out')h=`<div class="bar"><input placeholder="ค้นหาชื่อ รหัส หรือหมายเหตุ" value="${esc(F.q)}" oninput="F.q=this.value;paint()">
+ <select onchange="F.reg=this.value;paint()">${opt(['สท.2','สท.3'],F.reg,'ทุกทะเบียน')}</select>
+ <select onchange="F.cat=this.value;paint()">${opt(cats,F.cat,'ทุกหมวด')}</select>
+ ${tab==='reg'?`<select onchange="F.st=this.value;paint()">${opt(['ใช้งาน','ชำรุด'],F.st,'ทุกสถานะ')}</select>`:''}
+ <select onchange="F.g=this.value;paint()"><option value="">ไม่จัดกลุ่ม</option><option value="cat" ${F.g==='cat'?'selected':''}>จัดกลุ่มตามหมวด</option><option value="reg" ${F.g==='reg'?'selected':''}>จัดกลุ่มตามทะเบียน</option></select></div><div id="lst"></div>`;
+ else if(tab==='home')h=home(SUM,A);
+ else if(tab==='log'){h='<div id="hl" class="mut">กำลังโหลด...</div>';loadLog()}
+ else if(tab==='add')h=addForm(cats);
+ else h=`<p>เลือกไฟล์ Excel แบบ สท.2 หรือ สท.3 ระบบอ่านชื่อชีตเป็นหมวด และอ่านหัวรายงานเพื่อแยกทะเบียน</p>
+ <input type="file" accept=".xlsx" onchange="imp(this)"><div id="ip" style="margin-top:12px"></div>
+ <p class="mut">ถ้านำเข้าไฟล์เดิมซ้ำ รายการจะซ้ำ เพราะระบบอนุญาตให้รหัสเดียวกันมีได้หลายรายการ</p>`;
+ $('#pg').innerHTML=h;
+ $('#ft').textContent='';
+ if($('#lst'))paint();
+}
+let CATS=[];
+function home(){
+ const c=[['reg','ทะเบียนครุภัณฑ์','ดูและค้นหารายการทั้งหมด แยกตามหมวดหรือทะเบียน สท.2 / สท.3'],['chk','ตรวจสอบครุภัณฑ์','บันทึกผลการตรวจประจำปี'],['add','รับเข้าใหม่','เพิ่มครุภัณฑ์ที่ซื้อมาใหม่'],['out','จำหน่ายแล้ว','ดูรายการที่จำหน่ายแล้ว'],['imp','นำเข้า Excel','นำเข้าไฟล์ สท.2 และ สท.3'],['log','ประวัติ','ดูว่าใครทำรายการอะไรเมื่อไร']];
+ return `<div class="wl"><div class="logo big">ค</div><h2>ระบบทะเบียนครุภัณฑ์</h2><p>โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านห้วยผึ้ง<br>อำเภอน้ำปาด จังหวัดอุตรดิตถ์</p></div><div class="mg">${c.filter(x=>TT().some(t=>t[0]===x[0])).map(x=>`<button class="mc" onclick="go('${x[0]}')"><svg viewBox="0 0 24 24">${IC[x[0]]}</svg><b>${x[1]}</b><small>${x[2]}</small></button>`).join('')}</div>${S.length?'':'<p class="mut" style="text-align:center;margin-top:24px">ยังไม่มีข้อมูลในระบบ ผู้ดูแลไปที่เมนูนำเข้า Excel เพื่อนำเข้าไฟล์ สท.2 และ สท.3</p>'}`}
+function goCat(i){F={q:'',reg:'',cat:CATS[i],st:'',g:''};tab='reg';render()}
+function grouped(L){if(!F.g)return[['',L]];const m=new Map();L.forEach(x=>{const k=x[F.g];if(!m.has(k))m.set(k,[]);m.get(k).push(x)});return[...m]}
+function table(head,row,L){
+ if(!L.length)return'<p class="mut">ไม่พบรายการ</p>';
+ let h='<div class="sc"><table><thead><tr>'+head.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>';
+ for(const[k,g]of grouped(L)){if(k)h+=`<tr class="g"><td colspan="${head.length}"><span>${esc(k)}</span><small>${g.length} รายการ รวม ${fmt(g.reduce((s,x)=>s+x.cost,0))} บาท</small></td></tr>`;h+=g.map(row).join('')}
+ return h+'</tbody></table></div>'}
+function paint(){
+ const q=F.q.toLowerCase(),L=S.filter(x=>(tab==='out')===(x.st==='จำหน่ายแล้ว')&&(!F.reg||x.reg===F.reg)&&(!F.cat||x.cat===F.cat)&&(!F.st||tab!=='reg'||x.st===F.st)&&(!q||(x.name+' '+x.code+' '+(x.note||'')).toLowerCase().includes(q)));
+ let h='';
+ if(tab==='reg')h=table(['รหัส','รายการ','หมวด','ทะเบียน','วันที่ได้มา','ราคาทุน','ค่าเสื่อมสะสม','สถานะ',''],x=>`<tr><td>${esc(x.code)}</td><td>${esc(x.name)}<br><small>${esc(x.unit)}${x.note?' · '+esc(x.note):''}</small></td><td>${esc(x.cat)}</td><td>${badge(x.reg)}</td><td>${fd(x.d)}</td><td class="n">${fmt(x.cost)}</td><td class="n">${fmt(x.dep)}</td><td class="${x.st==='ชำรุด'?'bd':''}">${x.st}</td><td>${CAN?`<button onclick="openDisp(${x.i})">จำหน่าย</button>`:''}</td></tr>`,L);
+ if(tab==='chk'){const n=L.filter(x=>x.chk).length;h=`<div>ตรวจแล้ว ${n} จาก ${L.length} รายการ</div><div class="prog"><i style="width:${L.length?n*100/L.length:0}%"></i></div>`+table(['รหัส','รายการ','วันที่ได้มา','ผลตรวจ','หมายเหตุหรือที่ตั้ง'],x=>`<tr><td>${esc(x.code)}</td><td>${esc(x.name)}<br>${badge(x.reg)}</td><td>${fd(x.d)}</td><td><select onchange="chk(${x.i},this.value)">${['','พบ-ใช้ได้','พบ-ชำรุด','ไม่พบ'].map(o=>`<option value="${o}" ${o===(x.chk?x.chk.r:'')?'selected':''}>${o||'ยังไม่ตรวจ'}</option>`).join('')}</select>${x.chk?'<br><small>'+fd(x.chk.d)+'</small>':''}</td><td><input value="${esc(x.note)}" placeholder="เช่น ห้องตรวจ" onchange="setNote(${x.i},this.value)"></td></tr>`,L)}
+ if(tab==='out')h=table(['รหัส','รายการ','ราคาทุน','วันที่จำหน่าย','เหตุผล','เลขที่เอกสาร',''],x=>`<tr><td>${esc(x.code)}</td><td>${esc(x.name)}<br>${badge(x.reg)}</td><td class="n">${fmt(x.cost)}</td><td>${fd(x.disp&&x.disp.d)}</td><td>${esc(x.disp&&x.disp.r)}</td><td>${esc(x.disp&&x.disp.doc)}</td><td>${CAN?`<button onclick="undo(${x.i})">คืนสถานะ</button>`:''}</td></tr>`,L);
+ $('#lst').innerHTML=h;document.querySelectorAll('#lst table').forEach(t=>{const hs=[...t.tHead.rows[0].cells].map(c=>c.textContent);t.tBodies[0].querySelectorAll('tr:not(.g)').forEach(r=>[...r.cells].forEach((c,i)=>c.dataset.l=hs[i]||''))})}
+function chk(i,r){const x=get(i);x.chk=r?{r,d:today()}:null;if(r==='พบ-ชำรุด')x.st='ชำรุด';if(r==='พบ-ใช้ได้')x.st='ใช้งาน';put(x,'ตรวจ: '+(r||'ยกเลิกผลตรวจ'));paint()}
+function openDisp(i){cur=i;const x=get(i);$('#dn').textContent=x.code+' · '+x.name;const t=today().split('-');$('#dd').value=(+t[0]-543)+'-'+t[1]+'-'+t[2];$('#dc').value='';$('#dlg').showModal()}
+function doDisp(){const x=get(cur),v=$('#dd').value.split('-');if(v.length<3)return;x.st='จำหน่ายแล้ว';x.disp={d:(+v[0]+543)+'-'+v[1]+'-'+v[2],r:$('#dr').value,doc:$('#dc').value};put(x,'จำหน่าย: '+x.disp.r);$('#dlg').close();render()}
+function undo(i){const x=get(i);x.st='ใช้งาน';delete x.disp;put(x,'คืนสถานะ');render()}
+function addForm(cats){return`<form class="f" onsubmit="return addItem(event)">
+ <label>ชื่อรายการ<input name="n" required></label><label>หน่วยนับ<input name="u" value="เครื่อง"></label>
+ <label>หมวด<select name="c">${cats.map(c=>`<option>${c}</option>`).join('')}</select></label><label>รหัสครุภัณฑ์<input name="k" required></label>
+ <label>วันที่ได้มา<input type="date" name="d" required oninput="sug(this.form)"></label><label>ราคาทุน (บาท)<input type="number" name="p" min="0" step="0.01" required oninput="sug(this.form)"></label>
+ <label>อายุการใช้งาน (ปี)<input type="number" name="l" min="1"></label>
+ <label>ทะเบียน<select name="r"><option>สท.2</option><option>สท.3</option></select><small id="hint">ระบบแนะนำให้ตามราคาและวันที่ได้มา แก้เองได้</small></label>
+ <div><button class="pri">บันทึกครุภัณฑ์ใหม่</button></div></form>`}
+function sug(f){if(!f.d.value||!f.p.value)return;const y=+f.d.value.slice(0,4)+543;f.r.value=(+f.p.value>=10000&&y>=2560)?'สท.2':'สท.3'}
+function addItem(e){e.preventDefault();const f=e.target,v=f.d.value.split('-'),r=f.r.value;
+ const it={i:nid(),cat:f.c.value,reg:r,name:f.n.value,unit:f.u.value,code:f.k.value,d:(+v[0]+543)+'-'+v[1]+'-'+v[2],life:f.l.value?+f.l.value:null,cost:+f.p.value,dep:r==='สท.2'?0:null,st:'ใช้งาน',note:''};put(it,'รับเข้าใหม่');F={q:f.n.value,reg:'',cat:'',st:'',g:''};tab='reg';render();return false}
+async function imp(inp){
+ const f=inp.files[0];if(!f)return;P=[];const cnt={};
+ try{const wb=XLSX.read(await f.arrayBuffer(),{type:'array'});
+ for(const n of wb.SheetNames){
+  const r=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:true,defval:null}),
+   reg=/สท\.?\s*(3|๓)/.test(r.slice(0,3).flat().join(' '))?'สท.3':'สท.2',s2=reg==='สท.2';
+  for(const a of r){if(typeof a[0]!=='number'||!a[1])continue;
+   let d=a[4],iso=null;
+   if(typeof d==='number'){const c=XLSX.SSF.parse_date_code(d);iso=c.y+'-'+p2(c.m)+'-'+p2(c.d)}
+   else{const m=String(d||'').match(/(\d+)\/(\d+)\/(\d{4})/);if(m)iso=m[3]+'-'+p2(m[2])+'-'+p2(m[1])}
+   const cost=+a[s2?6:5]||0,dep=s2&&typeof a[7]==='number'?a[7]:null;
+   P.push({cat:n,reg,name:String(a[1]).trim(),unit:a[2]||'',code:String(a[3]||'').trim(),d:iso,life:s2?a[5]:null,cost,dep,st:'ใช้งาน',note:''});
+   cnt[reg+' · '+n]=(cnt[reg+' · '+n]||0)+1}}
+ $('#ip').innerHTML=P.length?'<div class="sc" style="padding:10px">พบ '+P.length+' รายการ<br>'+Object.entries(cnt).map(a=>esc(a[0])+': '+a[1]).join('<br>')+'</div><p><button class="pri" onclick="commit()">ยืนยันนำเข้า</button></p>':'<p class="bd">ไม่พบรายการในไฟล์นี้ ตรวจว่าเป็นไฟล์ สท.2 หรือ สท.3 และมีหัวคอลัมน์ ลำดับ</p>'
+ }catch(e){$('#ip').innerHTML='<p class="bd">อ่านไฟล์ไม่ได้ ลองบันทึกไฟล์เป็น .xlsx ใหม่</p>'}}
+async function commit(){if(!CAN)return;let n=nid();const arr=P;P=[];$('#ip').textContent='กำลังนำเข้า...';
+ try{for(let k=0;k<arr.length;k+=400){const b=db.batch();arr.slice(k,k+400).forEach(x=>{x.i=n++;b.set(db.collection('assets').doc(String(x.i)),x)});await b.commit()}
+ await db.collection('history').add({t:TS(),by:ME,act:'นำเข้า Excel '+arr.length+' รายการ',code:'',name:''});tab='reg';render()}catch(e){alert('นำเข้าไม่สำเร็จ: '+e.message)}}
+function login(){if(!auth){$('#lm').textContent='ยังไม่ได้ใส่ค่า Firebase ในไฟล์';return}
+ auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(e=>{$('#lm').textContent='เข้าสู่ระบบไม่สำเร็จ: '+e.message})}
+function out(){if(auth)auth.signOut()}
+function denied(u){document.body.classList.remove('in');$('#lm').innerHTML='บัญชี '+esc(u.email)+' ยังไม่ได้รับอนุญาต ติดต่อผู้ดูแลระบบ<br><a href="#" onclick="out();return false">ใช้บัญชีอื่น</a>'}
+function start(u,role){CAN=role==='editor';ME=u.email;document.body.classList.add('in');
+ $('#me').innerHTML=esc(u.email)+'<br>'+(CAN?'สิทธิ์แก้ไข':'ดูอย่างเดียว')+' · <a href="#" onclick="out();return false">ออกจากระบบ</a>';
+ let ck=null;tab='home';
+ unsub=db.collection('assets').onSnapshot(s=>{S=s.docs.map(d=>d.data());const k=[...new Set(S.map(x=>x.cat))].sort().join('|');
+  if(ck===null||k!==ck){ck=k;render()}else if($('#lst'))paint()},e=>alert('อ่านข้อมูลไม่ได้: '+e.message))}
+if(CFG.apiKey.indexOf('ใส่')===0){$('#lm').textContent='ยังไม่ได้ใส่ค่า Firebase ในไฟล์ (ดูคู่มือ ข้อ 6)'}
+else{firebase.initializeApp(CFG);auth=firebase.auth();db=firebase.firestore();
+ auth.onAuthStateChanged(async u=>{if(unsub){unsub();unsub=null}
+  if(!u){document.body.classList.remove('in');$('#lm').textContent='';return}
+  try{const r=await db.collection('users').doc(u.email.toLowerCase()).get();if(!r.exists)return denied(u);start(u,r.data().role)}catch(e){denied(u)}})}
+</script></main></div></div></body></html>

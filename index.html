@@ -179,6 +179,10 @@ td.pr{color:#47795a;font-weight:500}.tile{border-top-color:#d5dbef!important}.ti
 .xs.land{page:land}.xs.port{page:port}
 @page land{size:A4 landscape;margin:.75in .7in}@page port{size:A4 portrait;margin:.75in .7in}
 @media print{.xs{border:0;border-radius:0;margin:0;break-after:page}.xs:last-child{break-after:auto}.xt{-webkit-print-color-adjust:exact;print-color-adjust:exact}.xt td{padding:0 3px!important}}
+.sd{width:272px}.br{gap:12px;padding:0 4px 14px;margin-bottom:10px;border-bottom:1px solid var(--line)}
+.bl{flex:1;gap:12px}.bl>span:last-child{min-width:0}.bl .logo{width:52px;height:52px;box-shadow:0 2px 10px rgba(15,23,42,.16)}
+.bl b{font-size:17px;line-height:1.25;white-space:nowrap;letter-spacing:.1px}.bl small{margin-top:2px;font-size:12.5px;white-space:nowrap;color:var(--mut)}
+.mb2{width:32px;min-height:32px;flex:none}
 </style></head><body>
 <div id="lg"><div class="wl"><div class="logo big"></div><h2>ระบบทะเบียนครุภัณฑ์</h2><p>โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านห้วยผึ้ง</p><p style="margin:22px 0 10px"><input id="pin" type="password" autocomplete="current-password" placeholder="กรอกรหัสผ่านเข้าใช้งาน" onkeydown="if(event.key==='Enter')loginPin()" style="width:260px;text-align:center"></p><p style="margin:0 0 14px"><button class="pri" onclick="loginPin()">เข้าสู่ระบบ</button></p><p id="lm" class="bd"></p></div></div>
 <div class="app"><aside class="sd" id="sd"><div class="br"><a class="bl" href="#" onclick="go('home');return false" title="กลับหน้าแรก"><span class="logo"></span><span><b>ระบบครุภัณฑ์</b><small>รพ.สต.บ้านห้วยผึ้ง</small></span></a><button class="mb2" onclick="toggleMenu()" aria-label="ซ่อนเมนู"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button></div><nav id="tabs"></nav><div class="sf"><div id="me"></div><br>โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านห้วยผึ้ง<br>อำเภอน้ำปาด จังหวัดอุตรดิตถ์</div></aside><div class="sh" id="sh" onclick="menu(false)"></div>
@@ -231,8 +235,8 @@ const PG={home:pHome,reg:pReg,chk:pChk,loan:pLoan,fix:pFix,rep:pRep,add:pAdd,out
 const PT={reg:paintReg,chk:paintChk,loan:paintLoan,fix:paintFix,rep:paintRep,out:paintOut,log:paintLog};
 function paint(keep){if(!keep)pgn=1;const f=PT[tab];if(f&&$('#lst'))f()}
 function render(){
- let g='',h='';TT().forEach(t=>{if(t[2]&&t[2]!==g){g=t[2];h+=`<div class="gl">${g}</div>`}h+=`<button class="${t[0]===tab?'on':''}" onclick="go('${t[0]}')"><svg viewBox="0 0 24 24">${IC[t[0]]}</svg>${t[1]}</button>`});
- $('#tabs').innerHTML=h;const t=TABS.find(a=>a[0]===tab)||TABS[0];$('#pt').textContent=t[1];
+ let g='',h='';TT().forEach(t=>{if(t[0]==='home')return;if(t[2]&&t[2]!==g){g=t[2];h+=`<div class="gl">${g}</div>`}h+=`<button class="${t[0]===tab?'on':''}" onclick="go('${t[0]}')"><svg viewBox="0 0 24 24">${IC[t[0]]}</svg>${t[1]}</button>`});
+ $('#tabs').innerHTML=h;const t=TABS.find(a=>a[0]===tab)||TABS[0];$('#pt').textContent=t[0]==='home'?'':t[1];
  $('#pg').innerHTML=(PG[tab]||pHome)();paint();if(tab==='log')loadLog()}
 function pHome(){return`<div class="hero2"><div class="logo big"></div><h2>ระบบทะเบียนครุภัณฑ์</h2><p>โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านห้วยผึ้ง<br>อำเภอน้ำปาด จังหวัดอุตรดิตถ์</p></div><div class="mg">${TT().filter(t=>t[0]!=='home').map(t=>`<button class="mc" onclick="go('${t[0]}')"><svg viewBox="0 0 24 24">${IC[t[0]]}</svg><b>${t[1]}</b><small>${DS[t[0]]}</small></button>`).join('')}</div>`}
 /* ทะเบียน */

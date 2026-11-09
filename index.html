@@ -183,6 +183,8 @@ td.pr{color:#47795a;font-weight:500}.tile{border-top-color:#d5dbef!important}.ti
 .bl{flex:1;gap:12px}.bl>span:last-child{min-width:0}.bl .logo{width:52px;height:52px;box-shadow:0 2px 10px rgba(15,23,42,.16)}
 .bl b{font-size:17px;line-height:1.25;white-space:nowrap;letter-spacing:.1px}.bl small{margin-top:2px;font-size:12.5px;white-space:nowrap;color:var(--mut)}
 .mb2{width:32px;min-height:32px;flex:none}
+@font-face{font-family:DgA;src:local('Arial'),local('Helvetica'),local('Tahoma'),local('Segoe UI');unicode-range:U+0030-0039}
+.xs.ar .xt td{font-family:DgA,'TH SarabunPSK','TH Sarabun New','Sarabun',sans-serif!important;font-feature-settings:"locl" 0,"ccmp" 0;font-variant-numeric:lining-nums}
 </style></head><body>
 <div id="lg"><div class="wl"><div class="logo big"></div><h2>ระบบทะเบียนครุภัณฑ์</h2><p>โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านห้วยผึ้ง</p><p style="margin:22px 0 10px"><input id="pin" type="password" autocomplete="current-password" placeholder="กรอกรหัสผ่านเข้าใช้งาน" onkeydown="if(event.key==='Enter')loginPin()" style="width:260px;text-align:center"></p><p style="margin:0 0 14px"><button class="pri" onclick="loginPin()">เข้าสู่ระบบ</button></p><p id="lm" class="bd"></p></div></div>
 <div class="app"><aside class="sd" id="sd"><div class="br"><a class="bl" href="#" onclick="go('home');return false" title="กลับหน้าแรก"><span class="logo"></span><span><b>ระบบครุภัณฑ์</b><small>รพ.สต.บ้านห้วยผึ้ง</small></span></a><button class="mb2" onclick="toggleMenu()" aria-label="ซ่อนเมนู"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button></div><nav id="tabs"></nav><div class="sf"><div id="me"></div><br>โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านห้วยผึ้ง<br>อำเภอน้ำปาด จังหวัดอุตรดิตถ์</div></aside><div class="sh" id="sh" onclick="menu(false)"></div>
@@ -334,7 +336,7 @@ function xr(k,rows){const f=FM[k];let h=`<table class="xt" style="width:${f.W}px
   h+=`<tr style="height:${a[3]||R[0]}pt">`;
   cl.forEach(c=>{if(c[0]<=un)return;let cs=c[2],q=o[c[0]];if(Array.isArray(q)){cs=q[1];un=c[0]+cs-1;q=q[0]}h+=tdv(c[0],c[1],cs,c[3],c[4],k,q)});h+='</tr>'});return h+'</table>'}
 const PGW=l=>l?988:659,PGH=l=>l?650:978,rh=(k,rs)=>rs.reduce((s,r)=>s+FM[k].rows[r-1][0]*4/3,0);
-function xpage(k,rows){const f=FM[k],hh=rows.reduce((t,r)=>t+(r[3]||f.rows[r[0]-1][0])*4/3,0),z=Math.min(PGW(f.land)/f.W,PGH(f.land)/hh);return`<div class="xs ${f.land?'land':'port'}" style="zoom:${z.toFixed(3)}">${xr(k,rows)}</div>`}
+function xpage(k,rows){const f=FM[k],hh=rows.reduce((t,r)=>t+(r[3]||f.rows[r[0]-1][0])*4/3,0),z=Math.min(PGW(f.land)/f.W,PGH(f.land)/hh);const ar=k==='สท2'||k==='สท3';return`<div class="xs ${f.land?'land':'port'}${ar?' ar':''}"${ar?' lang="en"':''} style="zoom:${z.toFixed(3)}">${xr(k,rows)}</div>`}
 function rpp(k,hdr){const f=FM[k],z=PGW(f.land)/f.W,H=(PGH(f.land)/z-rh(k,hdr))*.985,n=Math.max(5,Math.floor(H/(f.rows[hdr.length][0]*4/3)));return[n,H/n*.75]}
 function fitXt(){const T=[...document.querySelectorAll('.xt td')].filter(t=>t.scrollWidth>t.clientWidth+1);T.forEach(t=>{let f=parseFloat(getComputedStyle(t).fontSize),g=0;while(t.scrollWidth>t.clientWidth+1&&f>7&&g++<24){f-=.5;t.style.fontSize=f+'px'}});document.querySelectorAll('.xs').forEach(x=>{const r=x.getBoundingClientRect(),l=x.classList.contains('land'),k=Math.min(PGH(l)/r.height,PGW(l)/r.width);if(k<.999)x.style.zoom=((parseFloat(x.style.zoom)||1)*k*.995).toFixed(3)})}
 window.addEventListener('beforeprint',fitXt);

@@ -166,14 +166,24 @@ td.pr{color:#47795a;font-weight:500}.tile{border-top-color:#d5dbef!important}.ti
 .th{width:42px;height:42px;object-fit:cover;border-radius:8px;float:left;margin:0 8px 0 0;cursor:pointer}
 .imgb{margin:14px 0}.pvi{max-width:200px;max-height:160px;border-radius:12px;border:1px solid var(--line);vertical-align:middle}
 .xw{overflow:auto}
+.rgw{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:8px;margin:0 0 18px;padding:12px}
+.rgx{--k:1;border-collapse:collapse;table-layout:fixed;min-width:0!important;color:#000;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rgx td{padding:0 4px!important;background:#fff!important;border:0 none;box-sizing:border-box;overflow:hidden;white-space:nowrap;font:700 calc(16pt*var(--fs,1)*var(--k)) 'TH SarabunPSK','THSarabunPSK','TH Sarabun New','THSarabunNew','Sarabun',sans-serif;line-height:1.18;color:#000}
+.rgx td.qwp{white-space:normal;overflow-wrap:break-word}.rgx td.qpre{white-space:pre}
+.rgx td.qhl{text-align:left}.rgx td.qhc{text-align:center}.rgx td.qhr{text-align:right}
+.rgx td.qvt{vertical-align:top}.rgx td.qvc{vertical-align:middle}.rgx td.qvb{vertical-align:bottom}
+.rgx td.qbl{border-left:1px solid #000}.rgx td.qbr{border-right:1px solid #000}.rgx td.qbt{border-top:1px solid #000}.rgx td.qbb{border-bottom:1px solid #000}
+.rgx td.qyl{background:#ff0!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.rgx thead{display:table-header-group}.rgx tr{break-inside:avoid}
+@media print{.rgx{--k:var(--kp)}.rgw{border:0;border-radius:0;margin:0;padding:0;overflow:visible;break-after:page}.rgw:last-child{break-after:auto}}
 .xt{border-collapse:collapse;table-layout:fixed;min-width:0!important;width:auto;color:#000}
 .xt td{padding:0 3px!important;background:#fff!important;border:0 none;line-height:1.15;overflow:hidden;white-space:pre;box-sizing:border-box}
 .xs{background:#fff;border:1px solid var(--line);border-radius:6px;margin:0 0 18px;display:block;width:max-content;max-width:none}
 .xt td:has(.xi){vertical-align:top!important;text-align:center!important}.xt tr.sm td{font-size:calc(12pt*var(--fs,1))}
 .xi{display:block;max-width:100%;max-height:250px;margin:4px auto 0;object-fit:contain}
 .xt td{position:relative}.pgb{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:1px solid #000;font:normal 10pt/18px 'TH Sarabun New','Sarabun',sans-serif;width:22px;height:20px;text-align:center}
-.xs.land{page:land}.xs.port{page:port}
-@page land{size:A4 landscape;margin:.75in .7in}@page port{size:A4 portrait;margin:.75in .7in}
+
+
 @media print{.xs{border:0;border-radius:0;margin:0;break-after:page}.xs:last-child{break-after:auto}.xt{-webkit-print-color-adjust:exact;print-color-adjust:exact}.xt td{padding:0 3px!important}}
 .sd{width:272px}.br{gap:12px;padding:0 4px 14px;margin-bottom:10px;border-bottom:1px solid var(--line)}
 .bl{flex:1;gap:12px}.bl>span:last-child{min-width:0}.bl .logo{width:52px;height:52px;box-shadow:0 2px 10px rgba(15,23,42,.16)}
@@ -237,7 +247,7 @@ function go(t){tab=t;pgn=1;SEL.clear();RF.only=0;F={q:'',reg:'',cat:'',st:''};me
 const PG={home:pHome,reg:pReg,chk:pChk,loan:pLoan,fix:pFix,rep:pRep,add:pAdd,out:pOut,imp:pImp,set:pSet,log:pLog};
 const PT={reg:paintReg,chk:paintChk,loan:paintLoan,fix:paintFix,rep:paintRep,out:paintOut,log:paintLog};
 function paint(keep){if(!keep)pgn=1;const f=PT[tab];if(f&&$('#lst'))f()}
-function render(){
+function render(){setPage();
  let g='',h='';TT().forEach(t=>{if(t[0]==='home')return;if(t[2]&&t[2]!==g){g=t[2];h+=`<div class="gl">${g}</div>`}h+=`<button class="${t[0]===tab?'on':''}" onclick="go('${t[0]}')"><svg viewBox="0 0 24 24">${IC[t[0]]}</svg>${t[1]}</button>`});
  $('#tabs').innerHTML=h;const t=TABS.find(a=>a[0]===tab)||TABS[0];$('#pt').textContent=t[0]==='home'?'':t[1];
  $('#pg').innerHTML=(PG[tab]||pHome)();paint();if(tab==='log')loadLog()}
@@ -274,7 +284,7 @@ const PF=[['sup','ซื้อ/จ้าง/ได้มา จาก'],['dno_b'
 function formHtml(x){x=x||{};const p=x.pd||{};
  return`<div class="f"><label>ชื่อรายการ<input name="n" required value="${esc(x.name)}"></label><label>หน่วยนับ<input name="u" value="${esc(x.unit||'เครื่อง')}"></label><label>หมวด (พิมพ์ชื่อหมวดใหม่ได้)<input name="c" list="cl" required value="${esc(x.cat)}"></label><datalist id="cl">${cats().map(c=>`<option value="${esc(c)}">`).join('')}</datalist>
  <label>เลขรหัสพัสดุ 3 หลัก<input name="pfx" inputmode="numeric" maxlength="3" placeholder="เช่น 400" value="${esc(x.i?pfxOf(x):'')}" oninput="hint(this.form)"></label>
- <label>รหัสครุภัณฑ์ (เว้นว่างให้ระบบสร้าง)<input name="k" value="${esc(x.code)}" oninput="hint(this.form)"></label>
+ <label>รหัสครุภัณฑ์ (ขึ้นให้เองเมื่อกรอกเลข 3 หลัก)<input name="k" value="${esc(x.code)}" oninput="this.dataset.auto='0';hint(this.form)"></label>
  <label>วันที่ได้มา<input type="date" name="d" required value="${x.d?ceISO(x.d):''}" oninput="sug(this.form);hint(this.form)"></label>
  <label>ราคาทุน (บาท)<input type="number" name="p" min="0" step="0.01" required value="${x.cost==null?'':x.cost}" oninput="sug(this.form)"></label>
  <label>อายุการใช้งาน (ปี)<input type="number" name="l" min="1" value="${x.life==null?'':x.life}"></label>
@@ -284,7 +294,9 @@ function formHtml(x){x=x||{};const p=x.pd||{};
 function readForm(f){const g=n=>f.elements[n]?f.elements[n].value.trim():'',pd={};PF.forEach(a=>{pd[a[0]]=a[2]?beISO(g(a[0])):g(a[0])});
  return{name:g('n'),unit:g('u'),cat:g('c'),code:g('k'),pfx:g('pfx'),d:beISO(g('d')),cost:+g('p'),life:g('l')?+g('l'):null,loc:g('s'),reg:g('r'),img:g('img'),pd:pd}}
 function genCode(pfx,d,skip){const yy=String(fyOf(d)).slice(-2),re=new RegExp('^'+pfx+'-'+yy+'-(\\d{4})');let m=0;S.forEach(x=>{const a=re.exec(x.code||'');if(a&&x.i!==skip)m=Math.max(m,+a[1])});return pfx+'-'+yy+'-'+String(m+1).padStart(4,'0')}
-function hint(f){const el=$('#gh');if(!el||f.dataset.mode!=='add')return;const p=f.elements.pfx.value.trim(),d=beISO(f.elements.d.value);el.textContent=(/^\d{3}$/.test(p)&&d&&!f.elements.k.value.trim())?'รหัสที่ระบบจะสร้างให้: '+genCode(p,d):''}
+function hint(f){if(f.dataset.mode!=='add')return;const el=$('#gh'),k=f.elements.k,p=f.elements.pfx.value.trim(),d=beISO(f.elements.d.value)||today(),ok=/^\d{3}$/.test(p);
+ if(!k.value.trim()||k.dataset.auto==='1'){if(ok){k.value=genCode(p,d);k.dataset.auto='1'}else if(k.dataset.auto==='1'){k.value='';k.dataset.auto=''}}
+ if(el)el.textContent=(ok&&k.dataset.auto==='1')?'รหัสครุภัณฑ์สร้างให้อัตโนมัติ (แก้ไขเองได้)':''}
 function sug(f){if(f.dataset.mode!=='add'||!f.elements.d.value||!f.elements.p.value)return;const y=+f.elements.d.value.slice(0,4)+543;f.elements.r.value=(+f.elements.p.value>=10000&&y>=2560)?'สท.2':'สท.3'}
 function openEdit(i){const x=get(i);modal(`<h3>แก้ไขครุภัณฑ์</h3><form id="ef" data-mode="edit" onsubmit="return saveEdit(event,${i})">${formHtml(x)}<div class="bar" style="margin-top:12px"><button type="button" onclick="closeM()">ยกเลิก</button><button class="pri">บันทึก</button></div></form>`)}
 function saveEdit(e,i){e.preventDefault();const x=get(i),o=readForm(e.target);if(o.pfx&&!/^\d{3}$/.test(o.pfx)){alert('เลขรหัสพัสดุต้องเป็นตัวเลข 3 หลัก');return false}
@@ -323,12 +335,12 @@ function saveFix(){const i=LBL[$('#m1').value],x=i&&get(i),d=beISO($('#m2').valu
 function delFix(i,id){if(!confirm('ลบรายการซ่อมนี้?'))return;const x=get(i);x.repairs=x.repairs.filter(v=>v.id!==id);put(x,'ลบรายการซ่อม');paint(1)}
 /* รายงาน */
 function pRep(){const t=RF.type;return`<div class="bar noprint"><select onchange="RF.type=this.value;RF.only=0;render()">${[['pd2','พ.ด.2 ทะเบียนพัสดุครุภัณฑ์ (รายชิ้น)'],['pd3','พ.ด.3 บัญชีงบหน้าประจำเลขรหัสพัสดุ'],['reg2','ทะเบียนครุภัณฑ์ สท.2'],['reg3','ทะเบียนครุภัณฑ์ สท.3'],['chk','ผลการตรวจสอบประจำปี']].map(a=>`<option value="${a[0]}" ${t===a[0]?'selected':''}>${a[1]}</option>`).join('')}</select><select onchange="RF.cat=this.value;paint()">${opts(cats(),RF.cat,'ทุกหมวด')}</select>${t==='chk'?fysel(FY,'FY=+this.value;paint()'):''}${t==='reg2'||t==='reg3'?fysel(rfy(),'RF.fy=+this.value;paint()'):''}${t==='pd2'?`<label class="ck2"><input type="checkbox" ${RF.back?'checked':''} onchange="RF.back=this.checked;paint()"> พิมพ์ด้านหลัง</label><label class="ck2"><input type="checkbox" ${RF.dep?'checked':''} onchange="RF.dep=this.checked;paint()"> คำนวณค่าเสื่อมราคา</label>`:''}${t!=='chk'?`<button class="pri" onclick="expRep(0)">ส่งออกเป็น Excel</button>`:''}${RF.only?'<button class="sm" onclick="RF.only=0;render()">แสดงทั้งหมด</button>':''}<button class="pri" onclick="window.print()">พิมพ์ / บันทึกเป็น PDF</button></div><div id="lst"></div>`}
-function paintRep(){const t=RF.type;let h;if(t==='pd2')h=repPd2();else if(t==='pd3')h=repPd3();else h=t==='chk'?'<div class="paper">'+repChk()+'</div>':repReg(t==='reg2'?'สท.2':'สท.3');$('#lst').innerHTML=h;fitXt()}
+function paintRep(){const t=RF.type;let h;setPage();if(t==='pd2')h=repPd2();else if(t==='pd3')h=repPd3();else h=t==='chk'?'<div class="paper">'+repChk()+'</div>':repReg(t==='reg2'?'สท.2':'สท.3');$('#lst').innerHTML=h;fitXt()}
 function depRows(x){const n=x.life||0,c=+x.cost||0,out=[];if(!n)return out;const an=(c-1)/n,pc=Math.round(10000/n)/100;for(let k=1;k<=5;k++)out.push(k<=n?[pc,Math.max(1,Math.round((c-an*k)*100)/100)]:['','']);return out}
 /* ===== แบบฟอร์มตามไฟล์ แบบสท2.xlsx (สท.2 / สท.3 / พ.ด.2 / พ.ด.3) ===== */
 const FM={"สท2":{"cols":[99,224,68,119,126,120,109,120],"rows":[[21,[[1,1,1,null,0],[2,1,1,null,0],[3,1,1,null,0],[4,1,1,null,0],[5,1,1,null,1],[6,1,1,null,0],[7,1,1,null,0],[8,1,1,"แบบ อปท.-สท.2",2]]],[21,[[1,1,8,"รายงานสำรวจสินทรัพย์ทางบัญชีขององค์กรปกครองส่วนท้องถิ่น",1]]],[21,[[1,1,8," ณ วันที่ 30 กันยายน 256....",1]]],[21,[[1,1,1,null,1],[2,1,1,null,1],[3,1,1,null,1],[4,1,1,null,1],[5,1,1,null,1],[6,1,1,null,1],[7,1,1,null,1],[8,1,1,null,1]]],[21,[[1,1,1,"หน่วยงาน ",3],[2,1,1,null,3],[3,1,1,null,1],[4,1,1,null,1],[5,1,1,"สังกัด องค์การบริหารส่วนจังหวัดอุตรดิตถ์",3],[6,1,1,null,1],[7,1,1,null,1],[8,1,1,null,1]]],[21,[[1,1,1,"อำเภอ",3],[2,1,1,null,3],[3,1,1,null,1],[4,1,1,null,1],[5,1,1,"จังหวัด",3],[6,1,1,"อุตรดิตถ์",3],[7,1,1,null,3],[8,1,1,null,1]]],[36.0,[[1,1,1,null,4],[2,1,1,null,5],[3,1,1,null,5],[4,1,1,null,5],[5,1,1,null,5],[6,1,1,null,5],[7,1,1,null,5],[8,1,1,null,5]]],[36.0,[[1,1,1,"ประเภทสินทรัพย์",6],[2,1,2,"ครุภัณฑ์.................................",7],[4,1,1,null,5],[5,1,1,null,5],[6,1,1,null,5],[7,1,1,null,5],[8,1,1,null,5]]],[21,[[1,1,1,null,0],[2,1,1,null,0],[3,1,1,null,0],[4,1,1,null,0],[5,1,1,null,1],[6,1,1,null,0],[7,1,1,null,0],[8,1,1,null,0]]],[39.0,[[1,3,1,"ลำดับ",8],[2,3,1,"รายการสินทรัพย์",9],[3,3,1,"หน่วยนับ",9],[4,3,1,"รหัสสินทรัพย์",9],[5,3,1,"วันที่ได้มาของสินทรัพย์",8],[6,1,1,"อายุการใช้งาน",9],[7,3,1,"ราคาทุน (บาท)",9],[8,1,1,"ค่าเสื่อมราคาสะสม (บาท)",9]]],[19.5,[[6,1,1,"ของสินทรัพย์",9],[8,1,1,"ตั้งแต่วันที่ได้มา",9]]],[21.75,[[6,1,1," (ปี)",9],[8,1,1,"ถึงวันที่ 30 ก.ย. 67",9]]],[21,[[1,1,1,null,10],[2,1,1,null,10],[3,1,1,null,10],[4,1,1,null,10],[5,1,1,null,10],[6,1,1,null,10],[7,1,1,null,10],[8,1,1,null,10]]],[21,[[1,1,1,null,10],[2,1,1,null,10],[3,1,1,null,10],[4,1,1,null,10],[5,1,1,null,10],[6,1,1,null,10],[7,1,1,null,10],[8,1,1,null,10]]],[21,[[1,1,1,null,10],[2,1,1,null,10],[3,1,1,null,10],[4,1,1,null,10],[5,1,1,null,10],[6,1,1,null,10],[7,1,1,null,10],[8,1,1,null,10]]],[21,[[1,1,1,null,10],[2,1,1,null,10],[3,1,1,null,10],[4,1,1,null,10],[5,1,1,null,10],[6,1,1,null,10],[7,1,1,null,10],[8,1,1,null,10]]],[21,[[1,1,1,null,10],[2,1,1,null,10],[3,1,1,null,10],[4,1,1,null,10],[5,1,1,null,10],[6,1,1,null,10],[7,1,1,null,10],[8,1,1,null,10]]],[21,[[1,1,1,null,10],[2,1,1,null,10],[3,1,1,null,10],[4,1,1,null,10],[5,1,1,null,10],[6,1,1,null,10],[7,1,1,null,10],[8,1,1,null,10]]],[21,[[1,1,1,null,10],[2,1,1,null,10],[3,1,1,null,10],[4,1,1,null,10],[5,1,1,null,10],[6,1,1,null,10],[7,1,1,null,10],[8,1,1,null,10]]],[21,[[1,1,1,null,10],[2,1,1,null,10],[3,1,1,null,10],[4,1,1,null,10],[5,1,1,null,10],[6,1,1,null,10],[7,1,1,null,10],[8,1,1,null,10]]]],"land":true,"sc":91,"W":985,"p":"a"},"สท3":{"cols":[97,240,86,68,92,121],"rows":[[21,[[1,1,1,null,0],[2,1,1,null,0],[3,1,1,null,1],[4,1,1,null,2],[5,1,1,null,3],[6,1,1,"แบบ อปท. - สท.3",3]]],[21,[[1,1,6,"รายงานสำรวจสินทรัพย์ขององค์กรปกครองส่วนท้องถิ่น",3]]],[21,[[1,1,6,"ณ วันที่  30 กันยายน 256....",3]]],[21,[[1,1,1,null,3],[2,1,1,null,3],[3,1,1,null,1],[4,1,1,null,2],[5,1,1,null,3],[6,1,1,null,3]]],[21,[[1,1,1,"หน่วยงาน : ",2],[2,1,1,"โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านห้วยผึ้ง",2],[3,1,1,null,1],[4,1,1,"สังกัด",2],[5,1,2,"องค์การบริหารส่วนจังหวัดอุตรดิตถ์",2]]],[21,[[1,1,1,"อำเภอ ",2],[2,1,1,"น้ำปาด",2],[3,1,1,null,2],[4,1,1,"จังหวัด",2],[5,1,1,"อุตรดิตถ์",2],[6,1,1,null,3]]],[21,[[1,1,1,"ประเภทสินทรัพย์    ",4],[2,1,1,"ครุภัณฑ์................................",5],[3,1,1,null,6],[4,1,1,null,2],[5,1,1,null,3],[6,1,1,null,3]]],[21,[[1,1,6,"กรณีสินทรัพย์มีมูลค่าต่ำกว่า 10,000 บาท หรือสินทรัพย์หมดอายุการใช้งานอย่างมีประสิทธิภาพ หรือกรณีครุภัณฑ์ที่ซื้อมา/ได้มาก่อนปีงบประมาณ พ.ศ. 2560",7]]],[21,[[1,1,1,null,0],[2,1,1,null,0],[3,1,1,null,1],[4,1,1,null,2],[5,1,1,null,3],[6,1,1,null,3]]],[63.0,[[1,1,1,"ลำดับ",8],[2,1,1,"รายการสินทรัพย์",9],[3,1,1,"หน่วยนับ",9],[4,1,1,"รหัสสินทรัพย์",9],[5,1,1,"วันที่ได้มาของสินทรัพย์",9],[6,1,1,"ราคาทุน (บาท)",9]]],[21,[[1,1,1,null,10],[2,1,1,null,10],[3,1,1,null,10],[4,1,1,null,10],[5,1,1,null,10],[6,1,1,null,10]]],[21,[[1,1,1,null,10],[2,1,1,null,10],[3,1,1,null,10],[4,1,1,null,10],[5,1,1,null,10],[6,1,1,null,10]]],[21,[[1,1,1,null,10],[2,1,1,null,10],[3,1,1,null,10],[4,1,1,null,10],[5,1,1,null,10],[6,1,1,null,10]]],[21,[[1,1,1,null,10],[2,1,1,null,10],[3,1,1,null,10],[4,1,1,null,10],[5,1,1,null,10],[6,1,1,null,10]]],[21,[[1,1,1,null,10],[2,1,1,null,10],[3,1,1,null,10],[4,1,1,null,10],[5,1,1,null,10],[6,1,1,null,10]]]],"land":false,"sc":85,"W":704,"p":"b"},"สด3":{"cols":[92,176,61,64,110,98,176,61,77,84],"rows":[[21.75,[[1,1,1,null,0],[2,1,1,null,0],[3,1,1,null,0],[4,1,1,null,0],[5,1,1,null,0],[6,1,1,null,1],[7,1,1,null,0],[8,1,1,null,0],[9,1,1,null,0],[10,1,1,"50-10-05",2]]],[27.0,[[1,1,10,"        บัญชีงบหน้าประจำเลขรหัสพัสดุ   .........",3]]],[21.75,[[1,1,1,null,0],[2,1,1,"ครุภัณฑ์.........",4],[3,1,1,null,0],[4,1,1,null,0],[5,1,1,null,0],[6,1,1,null,1],[7,1,1,null,0],[8,1,1,null,0],[9,1,1,null,0],[10,1,1,"พ.ด.3",5]]],[21.75,[[1,1,5," -1-",6],[6,1,4,"             (เฉพาะ 3 หมายเลขแรก)                         -2-",7],[10,1,1,null,8]]],[21.75,[[1,1,1,null,9],[2,1,1,null,9],[3,1,1,null,10],[4,1,1,null,9],[5,1,1,null,10],[6,1,1,null,11],[7,1,1,null,11],[8,1,1,null,11],[9,1,1,null,11],[10,1,1,null,11]]],[21.75,[[1,1,1,"เลขรหัสพัสดุ",12],[2,1,1,"ชื่อพัสดุ",12],[3,1,1,"วันที่ได้มา",12],[4,1,1,"ราคา",12],[5,1,1,"ส่วนราชการรับผิดชอบ",13],[6,1,1,"เลขรหัสพัสดุ",12],[7,1,1,"ชื่อพัสดุ",12],[8,1,1,"วันที่ได้มา",12],[9,1,1,"ราคา",12],[10,1,1,"ส่วนราชการรับผิดชอบ",12]]],[21.75,[[1,1,1,null,14],[2,1,1,null,14],[3,1,1,null,14],[4,1,1,null,14],[5,1,1,"(สำนัก/กอง/ฝ่าย)",15],[6,1,1,null,14],[7,1,1,null,14],[8,1,1,null,14],[9,1,1,null,14],[10,1,1,"(สำนัก/กอง/ฝ่าย)",15]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,5," - 3 -",17],[6,1,5," - 4 -  ",17]]],[21.75,[[1,1,1,"เลขรหัสพัสดุ",9],[2,1,1,"ชื่อพัสดุ",9],[3,1,1,"วันที่ได้มา",9],[4,1,1,"ราคา",9],[5,1,1,"ส่วนราชการรับผิดชอบ",18],[6,1,1,"เลขรหัสพัสดุ",9],[7,1,1,"ชื่อพัสดุ",9],[8,1,1,"    วันที่ได้มา",9],[9,1,1,"ราคา",9],[10,1,1,"ส่วนราชการรับผิดชอบ",18]]],[21.75,[[1,1,1,null,14],[2,1,1,null,14],[3,1,1,null,14],[4,1,1,null,14],[5,1,1,"(สำนัก/กอง/ฝ่าย)",15],[6,1,1,null,14],[7,1,1,null,14],[8,1,1,null,14],[9,1,1,null,14],[10,1,1,"(สำนัก/กอง/ฝ่าย)",15]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]],[21.75,[[1,1,1,null,16],[2,1,1,null,16],[3,1,1,null,16],[4,1,1,null,16],[5,1,1,null,16],[6,1,1,null,16],[7,1,1,null,16],[8,1,1,null,16],[9,1,1,null,16],[10,1,1,null,16]]]],"land":true,"sc":100,"W":999,"p":"c","nodv":1,"sh":[13,12,15,16,18]},"สด2":{"cols":[72,118,158,72,120,161,72,121,127,135],"rows":[[24.25,[[1,1,10,"ทะเบียนพัสดุครุภัณฑ์ ปศุสัตว์และสัตว์พาหนะ",0]]],[21.0,[[1,1,10,"ชื่อหน่วยการบริหารราชการส่วนท้องถิ่น  ",1]]],[21.0,[[1,1,4,"ประเภท ",2],[5,1,1,null,8],[6,1,1,null,8],[7,1,1,null,8],[8,1,1,null,8],[9,1,2,"เลขรหัสพัสดุ : ........-........-........",3]]],[21.0,[[1,1,3,"ชื่อพัสดุ : ",4],[4,1,3,"ซื้อ/จ้าง/ได้มา จาก : ",4],[7,1,4,"ชื่อผู้ใช้ - ดูแล - รับผิดชอบพัสดุ",5]]],[21.0,[[1,1,3,"ใบส่งของเลขที่ : เล่มที่          เลขที่",4],[4,1,3,"ซื้อ/จ้าง/ได้มา เมื่อวันที่ : ",4],[7,1,1,"พ.ศ.",5],[8,1,1,"ชื่อส่วนราชการ",5],[9,1,1,"ชื่อผู้ใช้พัสดุ",5],[10,1,1,"ชื่อหัวหน้าส่วนราชการ",5]]],[21.0,[[1,1,3,"ชื่อ/ยี่ห้อผู้ทำหรือผลิต : ",4],[4,1,3,"ราคา :                          ใช้งบประมาณของ : ",4],[7,1,1,null,5],[8,1,1,null,5],[9,1,1,null,5],[10,1,1,null,5]]],[21.0,[[1,1,3,"แบบ/ชนิด/ลักษณะ : ",4],[4,1,3,"ค่าเสื่อมราคา",5],[7,1,1,null,5],[8,1,1,null,5],[9,1,1,null,5],[10,1,1,null,5]]],[21.0,[[1,1,3,"หมายเลขลำดับ : ",4],[4,1,3,"ปีที่ 1 :              % คงเหลือราคา                    บาท",4],[7,1,1,null,5],[8,1,1,null,5],[9,1,1,null,5],[10,1,1,null,5]]],[21.0,[[1,1,3,"หมายเลขเครื่อง (ถ้ามี) : ",4],[4,1,3,"ปีที่ 2 :              % คงเหลือราคา                    บาท",4],[7,1,1,null,5],[8,1,1,null,5],[9,1,1,null,5],[10,1,1,null,5]]],[21.0,[[1,1,3,"หมายเลขกรอบ (ถ้ามี) : ",4],[4,1,3,"ปีที่ 3 :              % คงเหลือราคา                    บาท",4],[7,1,1,null,5],[8,1,1,null,5],[9,1,1,null,5],[10,1,1,null,5]]],[21.0,[[1,1,3,"หมายเลขจดทะเบียน (ถ้ามี) : ",4],[4,1,3,"ปีที่ 4 :              % คงเหลือราคา                    บาท",4],[7,1,1,null,5],[8,1,1,null,5],[9,1,1,null,5],[10,1,1,null,5]]],[21.0,[[1,1,3,"สีของพัสดุ : ",4],[4,1,3,"ปีที่ 5 :              % คงเหลือราคา                    บาท",4],[7,1,1,null,5],[8,1,1,null,5],[9,1,1,null,5],[10,1,1,null,5]]],[21.0,[[1,1,3,"อื่นๆ (ถ้ามีระบุ) : ",4],[4,1,3,"การจำหน่าย",5],[7,1,1,null,5],[8,1,1,null,5],[9,1,1,null,5],[10,1,1,null,5]]],[21.0,[[1,1,3,"เงื่อนไข-การรับประกัน : ",4],[4,1,3,"วันที่จำหน่าย : ",4],[7,1,1,null,5],[8,1,1,null,5],[9,1,1,null,5],[10,1,1,null,5]]],[21.0,[[1,1,3,"พัสดุรับประกันถึงวันที่ : ",4],[4,1,3,"วิธีจำหน่าย : ",4],[7,10,4,"รูปถ่ายพัสดุ (ถ้ามี) หรือตำหนิรูปพรรณสัตว์",7]]],[21.0,[[1,1,3,"พัสดุประกันไว้ที่บริษัท : ",4],[4,1,3,"เลขหนังสือที่อนุมัติ : ",4]]],[21.0,[[1,1,3,"วันที่รับประกันพัสดุ : ",4],[4,1,3,"ราคาจำหน่าย :                                                 บาท",4]]],[21.0,[[1,1,3,"ตามสัญญาสั่งซื้อเลขที่............ลงวันที่.................................",5],[4,1,3,"กำไร/ขาดทุน :                                                 บาท",4]]],[21.0,[[1,1,6,"การหาผลประโยชน์ในพัสดุ",5]]],[21.0,[[1,2,1,"พ.ศ.",6],[2,2,1,"รายการ",6],[3,1,1,"ผลประโยชน์(บาท)ที่ได้รับ",5],[4,2,1,"พ.ศ.",6],[5,2,1,"รายการ",6],[6,1,1,"ผลประโยชน์(บาท)ที่ได้รับ",5]]],[21.0,[[3,1,1,"เป็นรายเดือนหรือรายปี",5],[6,1,1,"เป็นรายเดือนหรือรายปี",5]]],[21.0,[[1,1,1,null,5],[2,1,1,null,5],[3,1,1,null,5],[4,1,1,null,5],[5,1,1,null,5],[6,1,1,null,5]]],[21.0,[[1,1,1,null,5],[2,1,1,null,5],[3,1,1,null,5],[4,1,1,null,5],[5,1,1,null,5],[6,1,1,null,5]]],[21.0,[[1,1,1,null,5],[2,1,1,null,5],[3,1,1,null,5],[4,1,1,null,5],[5,1,1,null,5],[6,1,1,null,5]]]],"land":true,"sc":100,"W":1156,"p":"d","nodv":1,"sh":[]},"สด2b":{"cols":[72,94,108,289,71,72,72,145],"rows":[[21.0,[[1,1,8,"บันทึกการซ่อม/ปรับปรุงแก้ไขพัสดุ",0]]],[21.0,[[1,2,1,"ครั้งที่",2],[2,1,2,"หนังสืออนุมัติ",1],[4,2,1,"รายการซ่อม/ปรับปรุงแก้ไข",2],[5,2,1,"จำนวนเงิน",2],[6,1,2,"ชื่อบุคคล - บริษัท",1],[8,2,1,"หมายเหตุ",2]]],[21.0,[[2,1,1,"เลขที่หนังสือ",1],[3,1,1,"ลงวันที่",1],[6,1,2,"ผู้ซ่อม - ผู้ปรับปรุง",1]]],[21.0,[[1,1,1,"1",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"2",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"3",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"4",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"5",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"6",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"7",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"8",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"9",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"10",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"11",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"12",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"13",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"14",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"15",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"16",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]],[21.0,[[1,1,1,"17",3],[2,1,1,null,3],[3,1,1,null,3],[4,1,1,null,4],[5,1,1,null,5],[6,1,1,null,4],[7,1,1,null,4],[8,1,1,null,4]]]],"land":true,"sc":100,"W":923,"p":"e","nodv":1,"sh":[]}};
 const hasF=n=>{const c=document.createElement('canvas').getContext('2d'),t='ทดสอบภาษาไทย';c.font='40px monospace';const a=c.measureText(t).width;c.font='40px "'+n+'",monospace';return c.measureText(t).width!==a};
-try{document.documentElement.style.setProperty('--fs',(hasF('TH Sarabun New')||hasF('THSarabunNew'))?1:.8)}catch(e){}
+try{document.documentElement.style.setProperty('--fs',(hasF('TH Sarabun New')||hasF('THSarabunNew')||hasF('TH SarabunPSK')||hasF('THSarabunPSK'))?1:.8)}catch(e){}
 const ORGD='โรงพยาบาลส่งเสริมสุขภาพตำบลบ้านห้วยผึ้ง',rfy=()=>RF.fy||fyOf(today())-1,cx=c=>/^ครุภัณฑ์/.test(c||'')?c:'ครุภัณฑ์ '+(c||'');
 const tdv=(c,rs,cs,v,s,k,o)=>{let t=v==null?'':esc(v);if(o!==undefined){if(o&&o.a!==undefined)t+=esc(o.a);else if(o&&o.ah!==undefined)t+=o.ah;else t=esc(o)}t=t.replace(/[๐-๙]/g,d=>'๐๑๒๓๔๕๖๗๘๙'.indexOf(d));return`<td class="${FM[k].p}${s}${o!==undefined&&!FM[k].nodv?' dv':''}${FM[k].sh&&FM[k].sh.includes(s)?' shr':''}"${rs>1?' rowspan='+rs:''}${cs>1?' colspan='+cs:''}>${t}</td>`};
 function xr(k,rows){const f=FM[k];let h=`<table class="xt" style="width:${f.W}px"><colgroup>${f.cols.map(w=>`<col style="width:${w}px">`).join('')}</colgroup>`;
@@ -347,7 +359,7 @@ const rg=(a,b)=>Array.from({length:b-a+1},(_,i)=>a+i);
 const crcT=(()=>{const t=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
 const crc32=b=>{let c=-1;for(let i=0;i<b.length;i++)c=crcT[(c^b[i])&255]^(c>>>8);return(c^-1)>>>0};
 function zipStore(files){const te=new TextEncoder(),parts=[],cd=[];let off=0;
- files.forEach(([n,s])=>{const nb=te.encode(n),d=te.encode(s),c=crc32(d),h=new DataView(new ArrayBuffer(30));
+ files.forEach(([n,s])=>{const nb=te.encode(n),d=s instanceof Uint8Array?s:te.encode(s),c=crc32(d),h=new DataView(new ArrayBuffer(30));
   h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint16(6,0x0800,true);h.setUint16(12,0x21,true);h.setUint32(14,c,true);h.setUint32(18,d.length,true);h.setUint32(22,d.length,true);h.setUint16(26,nb.length,true);
   parts.push(new Uint8Array(h.buffer),nb,d);
   const e=new DataView(new ArrayBuffer(46));e.setUint32(0,0x02014b50,true);e.setUint16(4,20,true);e.setUint16(6,20,true);e.setUint16(8,0x0800,true);e.setUint16(14,0x21,true);e.setUint32(16,c,true);e.setUint32(20,d.length,true);e.setUint32(24,d.length,true);e.setUint16(28,nb.length,true);e.setUint32(42,off,true);
@@ -355,45 +367,178 @@ function zipStore(files){const te=new TextEncoder(),parts=[],cd=[];let off=0;
  const cs=cd.reduce((a,b)=>a+b.length,0),en=new DataView(new ArrayBuffer(22));en.setUint32(0,0x06054b50,true);en.setUint16(8,files.length,true);en.setUint16(10,files.length,true);en.setUint32(12,cs,true);en.setUint32(16,off,true);
  return new Blob([...parts,...cd,new Uint8Array(en.buffer)],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})}
 const bgHex=s=>{const m=/rgba?\((\d+), (\d+), (\d+)(?:, ([\d.]+))?\)/.exec(s);if(!m||(m[4]!==undefined&&+m[4]===0))return'';const h=[1,2,3].map(i=>(+m[i]).toString(16).padStart(2,'0')).join('');return h==='ffffff'?'':h};
+/* ---------- โมเดลของพ.ด.2 / พ.ด.3 : อ่านจากตารางบนหน้าจอ (ขนาดตัวอักษรอ่านจากแบบ ไม่เอาค่าที่ถูกย่อตอนพิมพ์) ---------- */
 function xsModel(xs){const z=xs.style.zoom;xs.style.zoom='1';
- const fs=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fs'))||1,t=xs.querySelector('table.xt'),occ={},rows=[],
-  cols=[...t.querySelectorAll('col')].map(c=>parseFloat(c.style.width)||64);
- [...t.rows].forEach((tr,ri)=>{const cells=[];let c=0;
-  [...tr.cells].forEach(td=>{while(occ[ri+','+c])c++;const rs=td.rowSpan||1,cs=td.colSpan||1,cd=getComputedStyle(td),bw=s=>parseFloat(cd['border'+s+'Width'])>0&&cd['border'+s+'Style']!=='none'?1:0;
+ const fs=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fs'))||1,t=xs.querySelector('table.xt'),occ={},rows=[],cells=[],imgs=[],
+  cols=[...t.querySelectorAll('col')].map(c=>Math.max(2,((parseFloat(c.style.width)||64)-5)/7)),
+  NUM=/^-?(0|[1-9]\d{0,2}(,\d{3})+|[1-9]\d*)(\.\d+)?$/;
+ [...t.rows].forEach((tr,ri)=>{let c=0;
+  [...tr.cells].forEach(td=>{while(occ[ri+','+c])c++;const rs=td.rowSpan||1,cs=td.colSpan||1,cd=getComputedStyle(td),bw=s=>parseFloat(cd['border'+s+'Width'])>0&&cd['border'+s+'Style']!=='none';
    for(let i=0;i<rs;i++)for(let j=0;j<cs;j++)occ[(ri+i)+','+(c+j)]=1;
-   const runs=[];const pg=td.querySelector('.pgb');td.childNodes.forEach(n=>{if(n.className==='pgb')return;const v=(n.textContent||'').replace(/ /g,' ');if(v)runs.push([v,n.nodeName==='B'?1:0])});
-   if(pg)runs.push([pg.textContent,0]);cells.push({r:ri,c,rs,cs,runs,pg:pg?1:0,wr:/^(normal|pre-wrap)$/.test(cd.whiteSpace)&&(parseFloat(tr.style.height)>=30||rs>1)?1:0,sh:td.classList.contains('dv')||(/^(normal|pre-wrap)$/.test(cd.whiteSpace)&&!(parseFloat(tr.style.height)>=30||rs>1))?1:0,bg:bgHex(cd.backgroundColor),sz:pg?10:td.style.fontSize?Math.round(parseFloat(td.style.fontSize)*.75/fs*2)/2:16,b:+cd.fontWeight>=600?1:0,al:pg?'center':/^(left|right|center)$/.test(cd.textAlign)?cd.textAlign:'',va:cd.verticalAlign==='top'?'top':cd.verticalAlign==='middle'?'center':'bottom',bd:pg?[1,1,1,1]:[bw('Top'),bw('Left'),bw('Bottom'),bw('Right')]});c+=cs});
-  rows.push({h:parseFloat(tr.style.height)||21,cells})});
- xs.style.zoom=z;return{name:xs.dataset.n||'',cols,rows,land:xs.classList.contains('land')}}
-function xlsxBlob(M){const F=[],B=[],X=[],fk={},bk={},xk={},FL=['<fill><patternFill patternType="none"/></fill>','<fill><patternFill patternType="gray125"/></fill>'],flk={},fl=h=>{if(!h)return 0;if(!(h in flk)){flk[h]=FL.length;FL.push('<fill><patternFill patternType="solid"><fgColor rgb="FF'+h.toUpperCase()+'"/><bgColor indexed="64"/></patternFill></fill>')}return flk[h]},E=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])).replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g,''),
- font=(sz,b)=>{const k=sz+'|'+b;if(!(k in fk)){fk[k]=F.length;F.push(`<font>${b?'<b/>':''}<sz val="${sz}"/><name val="TH Sarabun New"/><family val="2"/></font>`)}return fk[k]},
- bord=d=>{const k=d.join('');if(!(k in bk)){bk[k]=B.length;const e=(n,f)=>f?`<${n} style="thin"><color rgb="FF000000"/></${n}>`:`<${n}/>`;B.push(`<border>${e('left',d[1])}${e('right',d[3])}${e('top',d[0])}${e('bottom',d[2])}<diagonal/></border>`)}return bk[k]},
- xf=(f,b,al,va,nf,wr,sh,bg)=>{const k=[f,b,al,va,nf,wr,sh,bg].join('|');if(!(k in xk)){xk[k]=X.length;X.push(`<xf numFmtId="${nf}" fontId="${f}" fillId="${fl(bg)}" borderId="${b}" xfId="0" applyFill="1" applyFont="1" applyBorder="1" applyAlignment="1"${nf?' applyNumberFormat="1"':''}><alignment${al?` horizontal="${al}"`:''} vertical="${va}"${wr?' wrapText="1"':sh?' shrinkToFit="1"':''}/></xf>`)}return xk[k]},
- L=n=>{let s='';while(n>0){const m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=(n-m-1)/26|0}return s},used={};
- font(11,0);bord([0,0,0,0]);xf(0,0,'','bottom',0);
- const sheets=M.map((m,i)=>{let nm=(m.name||'หน้า '+(i+1)).replace(/[\[\]:*?\/\\']/g,'').trim().slice(0,31)||'หน้า '+(i+1),k=nm,q=1;while(used[k.toLowerCase()]){q++;const sf=' ('+q+')';k=nm.slice(0,31-sf.length)+sf}used[k.toLowerCase()]=1;m.sn=k;
-  const grid=[],mg=[];
-  m.rows.forEach(r=>r.cells.forEach(c=>{const txt=c.runs.map(a=>a[0]).join(''),plain=txt.trim(),num=/^-?\d{1,3}(,\d{3})*(\.\d+)?$|^-?[1-9]\d*(\.\d+)?$/.test(plain)&&c.runs.length<2,
-   nf=num?(/\./.test(plain)?4:/,/.test(plain)?3:0):0,sid=xf(font(c.sz||11,c.b),bord(c.bd),c.al,c.va,nf,c.wr,c.sh,c.bg);
-   let x;if(!plain&&!c.runs.length)x=`<c r="@" s="${sid}"/>`;else if(num)x=`<c r="@" s="${sid}"><v>${plain.replace(/,/g,'')}</v></c>`;
-   else if(c.runs.some(a=>a[1]))x=`<c r="@" s="${sid}" t="inlineStr"><is>${c.runs.map(a=>`<r><rPr>${(a[1]||c.b)?'<b/>':''}<sz val="${c.sz||11}"/><rFont val="TH Sarabun New"/></rPr><t xml:space="preserve">${E(a[0])}</t></r>`).join('')}</is></c>`;
-   else x=`<c r="@" s="${sid}" t="inlineStr"><is><t xml:space="preserve">${E(txt)}</t></is></c>`;
-   for(let a=0;a<c.rs;a++)for(let b=0;b<c.cs;b++){const R=c.r+a,C=c.c+b;(grid[R]=grid[R]||{})[C]=(a||b?`<c r="@" s="${sid}"/>`:x).replace('"@"','"'+L(C+1)+(R+1)+'"')}
-   if(c.rs>1||c.cs>1)mg.push(`<mergeCell ref="${L(c.c+1)}${c.r+1}:${L(c.c+c.cs)}${c.r+c.rs}"/>`)}));
-  const sd=m.rows.map((r,ri)=>`<row r="${ri+1}" ht="${r.h}" customHeight="1">${Object.keys(grid[ri]||{}).map(Number).sort((a,b)=>a-b).map(c=>grid[ri][c]).join('')}</row>`).join('');
-  return`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetPr><pageSetUpPr fitToPage="1"/></sheetPr><sheetViews><sheetView workbookViewId="0" showGridLines="0"/></sheetViews><sheetFormatPr defaultRowHeight="21"/><cols>${m.cols.map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${Math.max(2,(w-5)/7).toFixed(2)}" customWidth="1"/>`).join('')}</cols><sheetData>${sd}</sheetData>${mg.length?`<mergeCells count="${mg.length}">${mg.join('')}</mergeCells>`:''}<pageMargins left="0.4" right="0.4" top="0.5" bottom="0.5" header="0.3" footer="0.3"/><pageSetup paperSize="9" orientation="${m.land?'landscape':'portrait'}" fitToWidth="1" fitToHeight="1"/></worksheet>`});
- const NS='http://schemas.openxmlformats.org/',H='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
- return zipStore([['[Content_Types].xml',H+`<Types xmlns="${NS}package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}</Types>`],
+   const runs=[],pg=td.querySelector('.pgb');
+   td.childNodes.forEach(n=>{if(n.className==='pgb')return;const v=(n.textContent||'').replace(/\u00a0/g,' ');if(v)runs.push([v,n.nodeName==='B'?1:0])});
+   if(pg)runs.push([pg.textContent,0]);
+   /* ขนาดตัวอักษรตามแบบ: ถอดค่าที่ fitXt ย่อไว้ออกก่อนอ่าน แล้วให้ Excel ย่อเองด้วย shrinkToFit */
+   const fi=td.style.getPropertyValue('font-size'),fp=td.style.getPropertyPriority('font-size');td.style.removeProperty('font-size');
+   const px=parseFloat(getComputedStyle(td).fontSize);if(fi)td.style.setProperty('font-size',fi,fp);
+   const txt=runs.map(a=>a[0]).join(''),plain=txt.trim(),isNum=NUM.test(plain)&&runs.length<2,wrapOk=/^(normal|pre-wrap)$/.test(cd.whiteSpace),tall=parseFloat(tr.style.height)>=30||rs>1;
+   const o={r:ri+1,c:c+1,rs,cs,sz:pg?10:Math.round(px*.75/fs*2)/2,b:+cd.fontWeight>=600?1:0,al:pg?'center':/^(left|right|center)$/.test(cd.textAlign)?cd.textAlign:'',va:cd.verticalAlign==='top'?'top':cd.verticalAlign==='middle'?'center':'bottom',
+    wr:wrapOk&&tall?1:0,sh:td.classList.contains('dv')||(wrapOk&&!tall)?1:0,bg:bgHex(cd.backgroundColor),bd:pg?'lrtb':(bw('Left')?'l':'')+(bw('Right')?'r':'')+(bw('Top')?'t':'')+(bw('Bottom')?'b':'')};
+   if(isNum){o.v=+plain.replace(/,/g,'');o.nf=/\./.test(plain)?4:/,/.test(plain)?3:0}
+   else if(runs.some(a=>a[1]))o.rich=runs;
+   else o.v=txt;
+   const im=td.querySelector('img.xi');if(im&&im.src)imgs.push({src:im.src,nw:im.naturalWidth||4,nh:im.naturalHeight||3,r:ri+1,c:c+1,rs,cs});
+   cells.push(o);c+=cs});
+  rows.push({h:parseFloat(tr.style.height)||21})});
+ xs.style.zoom=z;return{name:xs.dataset.n||'',cols,rows,cells,imgs,land:xs.classList.contains('land'),fh:1,grid:0,mg:[.4,.5]}}
+
+/* ---------- สท.2 / สท.3 : สร้างตามไฟล์ตัวอย่าง "สท2/สท3 ห้วยผึ้ง" ----------
+   ใช้โมเดลเดียวกันทั้งหน้าจอ / พิมพ์ PDF / ส่งออก Excel ผลจึงตรงกันทุกที่
+   ตัวอักษร TH SarabunPSK 16 ตัวหนา ความกว้างคอลัมน์และความสูงแถวตามต้นแบบ */
+const RGU={st2:[14.9,45,10.62,17.5,17.4,12.1,11.62,18.75],st3:[10.29,51.71,10,19.29,15.14,16.71]};
+const rgPx=u=>Math.round(u*7);
+const rgF2=n=>(n==null||n==='')?'':Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const rgDate=d=>{if(!d)return'';const a=d.split('-');return p2(+a[2])+'/'+p2(+a[1])+'/'+a[0]};
+/* ประมาณความกว้างข้อความ (px) ของ TH SarabunPSK 16 ตัวหนา เพื่อกะความสูงแถวที่ข้อความขึ้นบรรทัดใหม่ */
+function rgW(s){let w=0;for(const ch of String(s==null?'':s)){const c=ch.codePointAt(0);
+ if(c===0x0E31||(c>=0x0E34&&c<=0x0E3A)||(c>=0x0E47&&c<=0x0E4E))continue;
+ w+=c>=0x0E00&&c<=0x0E7F?7.4:c>=48&&c<=57?8:c===32?4.2:c>=65&&c<=90?10:c>=97&&c<=122?8.2:c<128?5.5:9}return w*1.05}
+const rgLines=(s,px)=>Math.max(1,Math.ceil(rgW(s)/Math.max(20,px-10)));
+function rgModel(reg,cat,L,fy){
+ const s2=reg==='สท.2',cols=(s2?RGU.st2:RGU.st3).slice(),nc=cols.length,cells=[],rows=[],
+  ORGS='องค์การบริหารส่วนจังหวัดอุตรดิตถ์',top=s2?12:10,money=s2?[6,7]:[5],
+  cost=L.reduce((s,x)=>s+(+x.cost||0),0),dep=L.reduce((s,x)=>s+(+x.dep||0),0);
+ /* คอลัมน์เงิน: ขยายให้พอดีตัวเลขที่ยาวที่สุด ไม่ให้ขึ้น ##### */
+ money.forEach(j=>{let mx=rgW(rgF2(j===7?dep:cost));L.forEach(x=>{mx=Math.max(mx,rgW(rgF2(j===7?x.dep:x.cost)))});cols[j]=Math.max(cols[j],(mx+14)/7)});
+ for(let i=0;i<top;i++)rows.push({h:21});rows[9].h=42;
+ const P=(r,c,v,o)=>cells.push(Object.assign({r,c,rs:1,cs:1,v,sz:16,b:1,al:'left',va:'center'},o||{}));
+ const BX='lrtb';
+ if(s2){
+  P(1,8,'แบบ อปท. - สท. ๒',{al:'right'});
+  P(2,1,'รายงานสำรวจสินทรัพย์ทางบัญชีขององค์กรปกครองส่วนท้องถิ่น',{cs:8,al:'center'});
+  P(3,1,'ณ วันที่ 30 กันยายน '+fy,{cs:8,al:'center'});
+  P(5,1,'หน่วยงาน');P(5,2,ORGD,{cs:3});P(5,5,'สังกัด '+ORGS,{cs:4});
+  P(6,1,'อำเภอ');P(6,2,'น้ำปาด');P(6,6,'จังหวัด');P(6,7,'อุตรดิตถ์');
+  P(8,1,'ประเภทสินทรัพย์');P(8,2,cat,{al:'center',bg:'FFFF00',bd:BX});
+  [['ลำดับ',1],['รายการสินทรัพย์',2],['หน่วยนับ',3],['รหัสสินทรัพย์',4],['วันที่ได้มาของสินทรัพย์',5],['ราคาทุน (บาท)',7]].forEach(a=>P(10,a[1],a[0],{rs:3,al:'center',bd:BX,wr:1}));
+  P(10,6,'อายุการใช้งาน',{al:'center',bd:'lrt',wr:1});P(11,6,'ของสินทรัพย์',{al:'center',bd:'lr',wr:1});P(12,6,'(ปี)',{al:'center',bd:'lrb',wr:1});
+  P(10,8,'ค่าเสื่อมราคาสะสม (บาท)',{al:'center',bd:'lrt',wr:1});P(11,8,'ตั้งแต่วันที่ได้มา',{al:'center',bd:'lr',wr:1});P(12,8,'ถึงวันที่ 30 ก.ย. '+String(fy).slice(-2),{al:'center',bd:'lrb',wr:1});
+ }else{
+  P(1,5,'แบบ อปท. - สท.3',{cs:2,al:'right'});
+  P(2,1,'รายงานสำรวจสินทรัพย์ขององค์กรปกครองส่วนท้องถิ่น',{cs:6,al:'center'});
+  P(3,1,'ณ วันที่ 30 กันยายน '+fy,{cs:6,al:'center'});
+  P(5,1,'หน่วยงาน :');P(5,2,ORGD);P(5,3,'สังกัด '+ORGS,{cs:4,al:'center'});
+  P(6,1,'อำเภอ : น้ำปาด        จังหวัด : อุตรดิตถ์',{cs:6,pre:1});
+  P(7,1,'ประเภทสินทรัพย์    '+cat,{cs:6,pre:1});
+  P(8,1,'กรณีสินทรัพย์มีมูลค่าต่ำกว่า 10,000 บาท หรือสินทรัพย์หมดอายุการใช้งานอย่างมีประสิทธิภาพ หรือกรณีครุภัณฑ์ที่ซื้อมา/ได้มาก่อนปีงบประมาณ พ.ศ. 2560',{cs:6,al:'center',bg:'FFFF00',bd:BX,sh:1});
+  ['ลำดับ','รายการสินทรัพย์','หน่วยนับ','รหัสสินทรัพย์','วันที่ได้มาของสินทรัพย์','ราคาทุน (บาท)'].forEach((t,i)=>P(10,i+1,t,{al:'center',bd:BX,wr:1}));
+ }
+ if(s2){rows[10].h=21;rows[11].h=21}
+ let r=top;
+ L.forEach((x,i)=>{r++;
+  const txt=s2?[i+1,x.name,x.unit,x.code,rgDate(x.d),x.life==null?'':x.life,rgF2(x.cost),rgF2(x.dep)]:[i+1,x.name,x.unit,x.code,rgDate(x.d),rgF2(x.cost)];
+  rows.push({h:21*Math.min(8,Math.max(...txt.map((t,j)=>rgLines(t,rgPx(cols[j])))))});
+  const B=(c,v,o)=>P(r,c,v,Object.assign({bd:BX,wr:1},o));
+  B(1,i+1,{al:'center',d:String(i+1),wr:0});B(2,x.name||'');B(3,x.unit||'',{al:'center'});B(4,x.code||'',{al:'center'});B(5,rgDate(x.d),{al:'center'});
+  if(s2){B(6,x.life==null||x.life===''?'':+x.life,{al:'center',wr:0,d:x.life==null?'':String(x.life)});B(7,+x.cost||0,{al:'right',nf:4,d:rgF2(x.cost)});B(8,x.dep==null?'':+x.dep,{al:'right',nf:4,d:rgF2(x.dep)})}
+  else B(6,+x.cost||0,{al:'right',nf:4,d:rgF2(x.cost)})});
+ /* แถวรวม (บาท) ตามต้นแบบ */
+ const f=r>top?top+1:0,R=r+1;rows.push({h:21.75});
+ if(s2){
+  P(R,1,'รวม (บาท)',{cs:2,al:'center',bd:'ltb'});P(R,3,'',{bd:'tb'});P(R,4,'',{bd:'tb'});P(R,5,'',{bd:'tb'});P(R,6,'',{bd:'rtb'});
+  P(R,7,cost,{f:f?'SUM(G'+f+':G'+r+')':'0',nf:4,al:'right',bd:BX,d:rgF2(cost)});P(R,8,dep,{f:f?'SUM(H'+f+':H'+r+')':'0',nf:4,al:'right',bd:BX,d:rgF2(dep)});
+ }else{
+  P(R,1,'',{bd:'ltb'});P(R,2,'รวม (บาท)',{al:'center',bd:'tb'});P(R,3,'',{bd:'tb'});P(R,4,'',{bd:'tb'});P(R,5,'',{bd:'tb'});
+  P(R,6,cost,{f:f?'SUM(F'+f+':F'+r+')':'0',nf:4,al:'right',bd:BX,d:rgF2(cost)});
+ }
+ return{name:cat,cols,rows,cells,land:s2,titles:[s2?10:1,top],fh:0,grid:1,mg:[.7087,.748]}}
+const rgItems=reg=>act().filter(x=>x.reg===reg&&(!RF.cat||x.cat===RF.cat)).sort(cmp);
+function rgModels(reg,L,fy){return[...new Set(L.map(x=>x.cat))].map(c=>rgModel(reg,c,L.filter(x=>x.cat===c),fy))}
+/* โมเดล -> HTML : ตารางไหลต่อหน้าเอง หัวตารางซ้ำทุกหน้า ไม่ใช้ zoom ไม่ย่อฟอนต์ */
+function rgHtml(m){
+ const W=m.cols.reduce((s,u)=>s+rgPx(u),0),av=m.land?988:659,kp=Math.min(1,Math.floor(av*.99/W*1000)/1000),by={};
+ m.cells.forEach(c=>(by[c.r]=by[c.r]||[]).push(c));
+ const cl=c=>{const k=[];for(const ch of(c.bd||''))k.push('qb'+ch);k.push('qh'+(c.al||'left')[0],'qv'+(c.va||'bottom')[0]);if(c.bg)k.push('qyl');if(c.pre)k.push('qpre');if(c.wr||c.sh)k.push('qwp');return k.join(' ')},
+  tx=c=>esc(c.d!==undefined?c.d:c.v==null?'':c.v),
+  occ=new Set(),nc=m.cols.length,
+  tr=i=>{const r=i+1;let col=1,s='';const gap=to=>{for(;col<to;col++)if(!occ.has(r+','+col))s+='<td></td>'};
+   (by[r]||[]).sort((a,b)=>a.c-b.c).forEach(c=>{gap(c.c);for(let a=0;a<c.rs;a++)for(let b=0;b<c.cs;b++)occ.add((r+a)+','+(c.c+b));
+    s+=`<td class="${cl(c)}"${c.rs>1?' rowspan='+c.rs:''}${c.cs>1?' colspan='+c.cs:''}>${tx(c)}</td>`;col=c.c+c.cs});
+   gap(nc+1);return`<tr style="height:calc(${m.rows[i].h}pt*var(--k))">${s}</tr>`},
+  n=m.rows.length,pre=[],h=[],b=[];
+ for(let i=0;i<n;i++)(i<m.titles[0]-1?pre:i<m.titles[1]?h:b).push(tr(i));
+ const cg=`<colgroup>${m.cols.map(u=>`<col style="width:calc(${rgPx(u)}px*var(--k))">`).join('')}</colgroup>`,st=`style="--kp:${kp};width:calc(${W}px*var(--k))"`;
+ return`<div class="rgw">${pre.length?`<table class="rgx" ${st}>${cg}<tbody>${pre.join('')}</tbody></table>`:''}<table class="rgx" ${st}>${cg}<thead>${h.join('')}</thead><tbody>${b.join('')}</tbody></table></div>`}
+function repReg(reg){const L=rgItems(reg);if(!L.length)return'<p>ไม่พบรายการ</p>';return rgModels(reg,L,rfy()).map(rgHtml).join('')}
+/* หน้ากระดาษ: กำหนดทิศทางเดียวต่อรายงาน (ไม่ใช้หน้าแบบตั้งชื่อ ที่บางเบราว์เซอร์ไม่รองรับ) */
+function setPage(){let s=document.getElementById('pgcss');if(!s){s=document.createElement('style');s.id='pgcss';document.head.appendChild(s)}
+ const t=tab==='rep'?RF.type:'';s.textContent=t==='chk'||!t?'@page{size:A4 landscape;margin:10mm}':'@page{size:A4 '+(t==='reg3'?'portrait':'landscape')+';margin:.75in .7in}'}
+
+/* ---------- ตัวเขียนไฟล์ .xlsx ---------- */
+function xlsxBlob(M){
+ const FN='TH SarabunPSK',NS='http://schemas.openxmlformats.org/',H='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',
+  E=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])).replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g,''),
+  Q=s=>E(s).replace(/"/g,'&quot;'),
+  fonts=[],fills=['<fill><patternFill patternType="none"/></fill>','<fill><patternFill patternType="gray125"/></fill>'],bords=[],xfs=[],mp={f:{},l:{},b:{},x:{}},
+  ix=(k,m,a,mk)=>{if(!(k in m)){m[k]=a.length;a.push(mk())}return m[k]},
+  font=(sz,b)=>ix(sz+'|'+(b?1:0),mp.f,fonts,()=>`<font>${b?'<b/>':''}<sz val="${sz}"/><color rgb="FF000000"/><name val="${FN}"/><family val="2"/><charset val="222"/></font>`),
+  bord=d=>{d=d||'';const k=['l','r','t','b'].filter(x=>d.includes(x)).join('')||'-';return ix(k,mp.b,bords,()=>{const e=(n,ch)=>k.includes(ch)?`<${n} style="thin"><color rgb="FF000000"/></${n}>`:`<${n}/>`;return`<border>${e('left','l')}${e('right','r')}${e('top','t')}${e('bottom','b')}<diagonal/></border>`})},
+  xf=(f,b,fl,nf,al,va,wr,sh)=>ix([f,b,fl,nf,al,va,wr,sh].join('|'),mp.x,xfs,()=>`<xf numFmtId="${nf}" fontId="${f}" fillId="${fl}" borderId="${b}" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment${al?` horizontal="${al}"`:''} vertical="${va}"${wr?' wrapText="1"':''}${sh?' shrinkToFit="1"':''}/></xf>`),
+  L=n=>{let s='';while(n>0){const m=(n-1)%26;s=String.fromCharCode(65+m)+s;n=(n-m-1)/26|0}return s},used={};
+ /* ลำดับที่ 0 = แบบอักษร/เส้น/สไตล์เริ่มต้น */
+ font(16,0);bord('');xf(0,0,0,0,'','bottom',0,0);
+ /* ค่าที่ fill() ต้องคืน: ดัชนีใน fills (เริ่มที่ 2 เพราะ 0,1 ถูกจองไว้) */
+ const fillId=h=>{if(!h)return 0;if(!(h in mp.l)){mp.l[h]=fills.length;fills.push(`<fill><patternFill patternType="solid"><fgColor rgb="FF${h.toUpperCase()}"/><bgColor indexed="64"/></patternFill></fill>`)}return mp.l[h]};
+
+ const extra=[],media=[];let nimg=0;
+ const b64=u=>{const m=/^data:image\/(\w+);base64,(.*)$/.exec(u);if(!m)return null;const bin=atob(m[2]),a=new Uint8Array(bin.length);for(let k=0;k<bin.length;k++)a[k]=bin.charCodeAt(k);return{ext:m[1]==='jpeg'?'jpg':m[1],a}};
+ const loc=(off,sz)=>{let k=0;while(k<sz.length-1&&off>=sz[k]){off-=sz[k];k++}return[k,off]};
+ const drawing=(m,i)=>{if(!m.imgs||!m.imgs.length)return'';const pics=[];
+  m.imgs.forEach(g=>{const f=b64(g.src);if(!f)return;
+   const cw=m.cols.map(u=>Math.round(u*7+5)),rh=m.rows.map(r=>r.h*4/3),
+    W=cw.slice(g.c-1,g.c-1+g.cs).reduce((a,b)=>a+b,0),Hh=rh.slice(g.r-1,g.r-1+g.rs).reduce((a,b)=>a+b,0),
+    top=30,sc=Math.min((W-16)/g.nw,(Hh-top-8)/g.nh),w=Math.max(10,g.nw*sc),h=Math.max(10,g.nh*sc),
+    x=(W-w)/2,y=top+(Hh-top-8-h)/2,[c0,co]=loc(x,cw.slice(g.c-1)),[r0,ro]=loc(y,rh.slice(g.r-1)),E9=v=>Math.round(v*9525);
+   nimg++;media.push(['xl/media/image'+nimg+'.'+f.ext,f.a]);
+   pics.push(`<xdr:oneCellAnchor><xdr:from><xdr:col>${g.c-1+c0}</xdr:col><xdr:colOff>${E9(co)}</xdr:colOff><xdr:row>${g.r-1+r0}</xdr:row><xdr:rowOff>${E9(ro)}</xdr:rowOff></xdr:from><xdr:ext cx="${E9(w)}" cy="${E9(h)}"/><xdr:pic><xdr:nvPicPr><xdr:cNvPr id="${nimg+1}" name="Picture ${nimg}"/><xdr:cNvPicPr><a:picLocks noChangeAspect="1"/></xdr:cNvPicPr></xdr:nvPicPr><xdr:blipFill><a:blip xmlns:r="${NS}officeDocument/2006/relationships" r:embed="rId${pics.length+1}"/><a:stretch><a:fillRect/></a:stretch></xdr:blipFill><xdr:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${E9(w)}" cy="${E9(h)}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></xdr:spPr></xdr:pic><xdr:clientData/></xdr:oneCellAnchor>`);
+   m._rel=(m._rel||[]).concat([[ 'rId'+pics.length,'../media/image'+nimg+'.'+f.ext]])});
+  if(!pics.length)return'';const n=i+1;
+  extra.push(['xl/drawings/drawing'+n+'.xml',H+`<xdr:wsDr xmlns:xdr="${NS}drawingml/2006/spreadsheetDrawing" xmlns:a="${NS}drawingml/2006/main">${pics.join('')}</xdr:wsDr>`]);
+  extra.push(['xl/drawings/_rels/drawing'+n+'.xml.rels',H+`<Relationships xmlns="${NS}package/2006/relationships">${m._rel.map(a=>`<Relationship Id="${a[0]}" Type="${NS}officeDocument/2006/relationships/image" Target="${a[1]}"/>`).join('')}</Relationships>`]);
+  extra.push(['xl/worksheets/_rels/sheet'+n+'.xml.rels',H+`<Relationships xmlns="${NS}package/2006/relationships"><Relationship Id="rId1" Type="${NS}officeDocument/2006/relationships/drawing" Target="../drawings/drawing${n}.xml"/></Relationships>`]);
+  m._dr=n;return'1'};
+ const sheets=M.map((m,i)=>{
+  let nm=(m.name||'หน้า '+(i+1)).replace(/[\[\]:*?\/\\']/g,'').trim().slice(0,31)||'หน้า '+(i+1),k=nm,q=1;
+  while(used[k.toLowerCase()]){q++;const sf=' ('+q+')';k=nm.slice(0,31-sf.length)+sf}used[k.toLowerCase()]=1;m.sn=k;
+  const grid={},mg=[];
+  m.cells.forEach(c=>{
+   const sid=xf(font(c.sz||16,c.b),bord(c.bd),fillId(c.bg),c.nf||0,c.al||'',c.va||'bottom',c.wr?1:0,c.sh&&!c.wr?1:0);let x;
+   if(c.f!==undefined)x=`<c r="@" s="${sid}"><f>${E(c.f)}</f>${c.v!=null&&c.v!==''?`<v>${c.v}</v>`:''}</c>`;
+   else if(typeof c.v==='number')x=`<c r="@" s="${sid}"><v>${c.v}</v></c>`;
+   else if(c.rich)x=`<c r="@" s="${sid}" t="inlineStr"><is>${c.rich.map(a=>`<r><rPr>${(a[1]||c.b)?'<b/>':''}<sz val="${c.sz||16}"/><rFont val="${FN}"/><charset val="222"/></rPr><t xml:space="preserve">${E(a[0])}</t></r>`).join('')}</is></c>`;
+   else if(c.v==null||c.v==='')x=`<c r="@" s="${sid}"/>`;
+   else x=`<c r="@" s="${sid}" t="inlineStr"><is><t xml:space="preserve">${E(c.v)}</t></is></c>`;
+   for(let a=0;a<c.rs;a++)for(let b=0;b<c.cs;b++){const R=c.r-1+a,C=c.c-1+b;(grid[R]=grid[R]||{})[C]=(a||b?`<c r="@" s="${sid}"/>`:x).replace('"@"','"'+L(C+1)+(R+1)+'"')}
+   if(c.rs>1||c.cs>1)mg.push(`<mergeCell ref="${L(c.c)}${c.r}:${L(c.c+c.cs-1)}${c.r+c.rs-1}"/>`)});
+  const dr=drawing(m,i);
+  const sd=m.rows.map((r,ri)=>{const cs=Object.keys(grid[ri]||{}).map(Number).sort((a,b)=>a-b).map(c=>grid[ri][c]).join('');return`<row r="${ri+1}" ht="${r.h}" customHeight="1">${cs}</row>`}).join(''),
+   mgn=m.mg||[.7087,.748];
+  return`${H}<worksheet xmlns="${NS}spreadsheetml/2006/main" xmlns:r="${NS}officeDocument/2006/relationships"><sheetPr><pageSetUpPr fitToPage="1"/></sheetPr><sheetViews><sheetView workbookViewId="0"${m.grid?'':' showGridLines="0"'}/></sheetViews><sheetFormatPr defaultRowHeight="21"/><cols>${m.cols.map((w,j)=>`<col min="${j+1}" max="${j+1}" width="${Math.max(2,w).toFixed(2)}" customWidth="1"/>`).join('')}</cols><sheetData>${sd}</sheetData>${mg.length?`<mergeCells count="${mg.length}">${mg.join('')}</mergeCells>`:''}<pageMargins left="${mgn[0]}" right="${mgn[0]}" top="${mgn[1]}" bottom="${mgn[1]}" header="0.3" footer="0.3"/><pageSetup paperSize="9" orientation="${m.land?'landscape':'portrait'}" fitToWidth="1" fitToHeight="${m.fh?1:0}"/>${dr?'<drawing r:id="rId1"/>':''}</worksheet>`});
+ const dn=M.map((m,i)=>m.titles?`<definedName name="_xlnm.Print_Titles" localSheetId="${i}">'${E(m.sn.replace(/'/g,"''"))}'!$${m.titles[0]}:$${m.titles[1]}</definedName>`:'').join('');
+ return zipStore([['[Content_Types].xml',H+`<Types xmlns="${NS}package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="jpg" ContentType="image/jpeg"/><Default Extension="png" ContentType="image/png"/><Default Extension="gif" ContentType="image/gif"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}${M.filter(m=>m._dr).map(m=>`<Override PartName="/xl/drawings/drawing${m._dr}.xml" ContentType="application/vnd.openxmlformats-officedocument.drawing+xml"/>`).join('')}</Types>`],
   ['_rels/.rels',H+`<Relationships xmlns="${NS}package/2006/relationships"><Relationship Id="rId1" Type="${NS}officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
-  ['xl/workbook.xml',H+`<workbook xmlns="${NS}spreadsheetml/2006/main" xmlns:r="${NS}officeDocument/2006/relationships"><sheets>${M.map((m,i)=>`<sheet name="${E(m.sn).replace(/"/g,'&quot;')}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')}</sheets></workbook>`],
+  ['xl/workbook.xml',H+`<workbook xmlns="${NS}spreadsheetml/2006/main" xmlns:r="${NS}officeDocument/2006/relationships"><bookViews><workbookView/></bookViews><sheets>${M.map((m,i)=>`<sheet name="${Q(m.sn)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')}</sheets>${dn?`<definedNames>${dn}</definedNames>`:''}<calcPr calcId="191029" fullCalcOnLoad="1"/></workbook>`],
   ['xl/_rels/workbook.xml.rels',H+`<Relationships xmlns="${NS}package/2006/relationships">${M.map((_,i)=>`<Relationship Id="rId${i+1}" Type="${NS}officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')}<Relationship Id="rId${M.length+1}" Type="${NS}officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`],
-  ['xl/styles.xml',H+`<styleSheet xmlns="${NS}spreadsheetml/2006/main"><fonts count="${F.length}">${F.join('')}</fonts><fills count="${FL.length}">${FL.join('')}</fills><borders count="${B.length}">${B.join('')}</borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="${X.length}">${X.join('')}</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`],
-  ...sheets.map((x,i)=>['xl/worksheets/sheet'+(i+1)+'.xml',x])])}
-function expRep(all){RF.xp=1;const sv=RF.type,TY=all?['pd2','pd3','reg2','reg3']:[sv],M=[];
- TY.forEach(t=>{RF.type=t;paintRep();document.querySelectorAll('#lst .xs').forEach(x=>M.push(xsModel(x)))});
- RF.type=sv;RF.xp=0;paintRep();
+  ['xl/styles.xml',H+`<styleSheet xmlns="${NS}spreadsheetml/2006/main"><fonts count="${fonts.length}">${fonts.join('')}</fonts><fills count="${fills.length}">${fills.join('')}</fills><borders count="${bords.length}">${bords.join('')}</borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="${xfs.length}">${xfs.join('')}</cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`],
+  ...sheets.map((x,i)=>['xl/worksheets/sheet'+(i+1)+'.xml',x]),...extra,...media])}
+function expRep(all){const sv=RF.type,TY=all?['pd2','pd3','reg2','reg3']:[sv],M=[];RF.xp=1;
+ try{TY.forEach(t=>{
+  if(t==='reg2'||t==='reg3'){const g=t==='reg2'?'สท.2':'สท.3';M.push(...rgModels(g,rgItems(g),rfy()))}
+  else{RF.type=t;paintRep();document.querySelectorAll('#lst .xs').forEach(x=>M.push(xsModel(x)))}})}
+ finally{RF.type=sv;RF.xp=0;paintRep()}
  if(!M.length)return alert('ไม่มีรายการให้ส่งออก');
- const a=document.createElement('a');a.href=URL.createObjectURL(xlsxBlob(M));a.download='forms_'+(all?'ALL4':({pd2:'PD2',pd3:'PD3',reg2:'ST2',reg3:'ST3'}[sv]))+'_'+today()+'.xlsx';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}
+ const nm=all?'forms_ALL4_'+today():({pd2:'PD2',pd3:'PD3',reg2:'สท2_ห้วยผึ้ง_'+String(rfy()).slice(-2),reg3:'สท3_ห้วยผึ้ง_'+String(rfy()).slice(-2)}[sv]+(sv[0]==='p'?'_'+today():'')),
+  a=document.createElement('a');a.href=URL.createObjectURL(xlsxBlob(M));a.download=nm+'.xlsx';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}
 /* พ.ด.2 */
 function pd2One(x){const p=x.pd||{},dr=RF.dep?depRows(x):[],ds=x.disp||{},H=RF.dep&&x.life,O={},st=(r,c,v)=>{(O[r]=O[r]||{})[c]=v},ap=(r,c,v)=>st(r,c,{a:v==null?'':v}),
   R=(x.repairs||[]).slice().sort((a,b)=>(a.d||'').localeCompare(b.d||''));
@@ -423,16 +568,6 @@ function repPd3(){const A=act(),L=A.filter(x=>(!RF.cat||x.cat===RF.cat)&&pfxOf(x
   const ra=rg(1,7).map(hd);for(let i=0;i<15;i++)ra.push(bd(8+i,it[i],it[15+i]));const sn='พด3 '+pf+(g.length>70?' ('+(s/70+1)+')':'');h+=xpage('สด3',ra,sn+' หน้า1');
   if(it.length>30){const rb=[23,24,25].map(r=>[r,r===23?{6:{ah:'<i class="pgb">2</i>'}}:{}]);for(let i=0;i<20;i++)rb.push(bd(26+i,it[30+i],it[50+i]));h+=xpage('สด3',rb,sn+' หน้า2')}}});
  return h+(Object.keys(G).length?'':'<p>ไม่พบรายการ</p>')}
-/* สท.2 / สท.3 */
-function repReg(reg){const s2=reg==='สท.2',k=s2?'สท2':'สท3',fy=rfy(),L=act().filter(x=>x.reg===reg&&(!RF.cat||x.cat===RF.cat)).sort(cmp);
- if(!L.length)return'<p>ไม่พบรายการ</p>';
- const hdr=rg(1,s2?12:10),rp=RF.xp?[s2?11:29,0]:rpp(k,hdr),n=rp[0],bt=s2?13:11;let h='';
- [...new Set(L.map(x=>x.cat))].forEach(c=>{const g=L.filter(x=>x.cat===c);
-  for(let p=0;p<g.length;p+=n){const rows=hdr.map(r=>{const o={};
-    if(s2){if(r===3)o[1]=' ณ วันที่ 30 กันยายน '+fy;if(r===5){o[2]=[ORGD,3];o[5]=['สังกัด องค์การบริหารส่วนจังหวัดอุตรดิตถ์',4]}if(r===6)o[2]='น้ำปาด';if(r===8)o[1]=['ประเภทสินทรัพย์ '+cx(c),3];if(r===12)o[8]='ถึงวันที่ 30 ก.ย. '+String(fy).slice(-2)}
-    else{if(r===3)o[1]='ณ วันที่  30 กันยายน '+fy;if(r===7)o[2]=cx(c)}return[r,o]});
-   for(let i=0;i<n;i++){const x=g[p+i],o={};if(x){o[1]=p+i+1;o[2]=x.name;o[3]=x.unit;o[4]=x.code;o[5]=fd(x.d);if(s2){o[6]=x.life==null?'':x.life;o[7]=fmt(x.cost);o[8]=x.dep==null?'':fmt(x.dep)}else o[6]=fmt(x.cost)}rows.push([bt,o,0,rp[1]])}
-   h+=xpage(k,rows,(s2?'สท2 ':'สท3 ')+c.replace(/^ครุภัณฑ์\s*/,'').slice(0,18)+' '+(p/n+1))}});return h}
 /* รูปภาพครุภัณฑ์ */
 function pickImg(inp){const f=inp.files[0];if(!f)return;const im=new Image,u=URL.createObjectURL(f);im.onload=()=>{const s=Math.min(1,720/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);setImg(c.toDataURL('image/jpeg',.7))};im.onerror=()=>alert('อ่านไฟล์รูปไม่ได้ ลองเลือกรูปอื่น');im.src=u}
 function setImg(d){const f=document.querySelector('#ef [name=img]');if(f)f.value=d;$('#pv').innerHTML=d?`<img src="${d}" class="pvi"> <button type="button" class="sm bad" onclick="setImg('')">ลบรูป</button>`:'<small class="mut">ยังไม่มีรูป</small>'}
